@@ -1,6 +1,6 @@
 import { Login } from "../components/Login";
 
-export const Home = () => {
+export const HomePage = () => {
   return (
     <>
       <Login />

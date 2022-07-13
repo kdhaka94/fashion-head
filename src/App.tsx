@@ -1,8 +1,8 @@
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import theme from "@utils/theme";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Home } from "@pages/Home";
+import { HomePage } from "./pages/Home";
+import theme from "./utils/theme";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <CssBaseline />
         <Router>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<HomePage />} />
           </Routes>
         </Router>
       </ThemeProvider>

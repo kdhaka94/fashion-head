@@ -1,0 +1,15 @@
+.link,
+.link:hover,
+.link:focus,
+.link:active {
+  text-decoration: none;
+  font-family: Manrope;
+  font-size: 12px;
+  font-weight: 200;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.42;
+  letter-spacing: normal;
+  text-align: left;
+  color: #6e62e3;
+}

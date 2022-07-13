@@ -1,5 +1,6 @@
-import React from "react";
 import { Image } from "../common/Image";
+import { Typography } from "../common/Typography";
+import { LoginForm } from "./elements/LoginForm";
 import classes from "./styles.module.css";
 
 export const Login = () => {
@@ -7,17 +8,19 @@ export const Login = () => {
     <div className={classes.container}>
       <div className={classes.loginInfoLeft}>
         <div className={classes.justifyContainer}>
-          <div className={classes.Manageecosystem}>
-            Manage the ecosystem Generate Orders
-          </div>
-          <div className={classes.Trackreview}>
-            Track & review the performance of team and the theme
-          </div>
+          <Typography variant="h2" align="center">
+            Manage the ecosystem
+            <br /> Generate Orders
+          </Typography>
+          <Typography variant="body1" align="center">
+            Track & review the performance of team and
+            <br /> the theme
+          </Typography>
           <Image src="/assets/images/login-banner.webp" width={500} />
         </div>
       </div>
       <div className={classes.loginInfoRight}>
-        
+        <LoginForm />
       </div>
     </div>
   );

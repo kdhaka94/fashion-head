@@ -1,0 +1,9 @@
+.inputLabel {
+  padding-bottom: 11px;
+}
+
+.errorContainer {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
