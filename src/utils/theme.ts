@@ -1,24 +1,10 @@
 import { createTheme } from "@mui/material/styles";
+import { colors } from "./colors";
 import { typography } from "./typography";
 
 // A custom theme for this app
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#6E62E3",
-      100: "#E3E8FE",
-      200: "#D5D9FE",
-      300: "#ACAFFB",
-      400: "#EEEEFF",
-      500: "#7576F9",
-    },
-    secondary: {
-      main: "#707070",
-    },
-    error: {
-      main: "#ff1f1f",
-    },
-  },
+  palette: colors,
 
   typography: typography,
 
@@ -52,8 +38,13 @@ const theme = createTheme({
           textTransform: "none",
           padding: "5px 36px",
         },
+        outlined: {
+          fontSize: "14px",
+          color: colors.primary.main,
+        },
       },
     },
+
     MuiFormHelperText: {
       styleOverrides: {
         root: {

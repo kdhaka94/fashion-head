@@ -1,0 +1,10 @@
+.outerContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.innerContainer {
+  width: 100%;
+  max-width: 2000px;
+}

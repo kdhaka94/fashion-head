@@ -1,7 +1,12 @@
+import { ThemeProvider } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import { Centerlizer } from "./components/common/Centerlizer";
 import "./index.css";
+import { QueryContainer } from "./utils/api/QueryContainer";
+import theme from "./utils/theme";
 
 const MOUNT_NODE = document.getElementById("root") as HTMLElement;
 
@@ -9,7 +14,14 @@ const root = ReactDOM.createRoot(MOUNT_NODE);
 
 root.render(
   <React.StrictMode>
-    <App />
+    <QueryContainer>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Centerlizer>
+          <App />
+        </Centerlizer>
+      </ThemeProvider>
+    </QueryContainer>
   </React.StrictMode>
 );
 

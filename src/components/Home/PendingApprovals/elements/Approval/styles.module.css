@@ -1,0 +1,12 @@
+.container {
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 7px 10px;
+  display: flex;
+}
+
+.productImg {
+  background-color: #f7faff;
+  border-radius: 7px;
+  border: none;
+}

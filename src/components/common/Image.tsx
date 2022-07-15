@@ -6,5 +6,5 @@ type IProps = {} & React.DetailedHTMLProps<
 >;
 
 export const Image = (props: IProps) => {
-  return <img {...props} />;
+  return <img alt="" {...props} />;
 };
