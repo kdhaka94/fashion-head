@@ -59,4 +59,13 @@ export const typography:
     letterSpacing: "normal",
     color: "#000",
   },
+  caption: {
+    fontSize: "12px",
+    fontWeight: 300,
+    fontStretch: "normal",
+    fontStyle: "normal",
+    lineHeight: 5.08,
+    letterSpacing: "normal",
+    color: "#000",
+  },
 };
