@@ -16,7 +16,7 @@ export const typography:
     color: "#000",
   },
   h2: {
-    fontSize: "24px",
+    fontSize: "22px",
     fontWeight: "bold",
     fontStretch: "normal",
     fontStyle: "normal",

@@ -1,0 +1,22 @@
+.container {
+  margin-top: 17px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.subContainer {
+  display: flex;
+  border-bottom: solid 1px #efefef;
+  padding: 20px 37px;
+  align-items: center;
+}
+
+.subContainer > * {
+  min-width: 336px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-self: flex-end;
+}

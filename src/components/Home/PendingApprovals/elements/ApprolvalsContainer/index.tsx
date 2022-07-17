@@ -1,5 +1,5 @@
 import React from "react";
-import { usePendingProductsQuery } from "../../../../../data/products/use.pendingProducts.query";
+import { usePendingProductsQuery } from "../../../../../data/products/use-pendingProducts.query";
 import { Approval } from "../Approval";
 import classes from "./styles.module.css";
 
