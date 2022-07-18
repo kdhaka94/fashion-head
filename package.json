@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.4.5",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@hookform/resolvers": "^2.9.6",
@@ -33,7 +34,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "craco start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -58,6 +59,7 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
-    "@types/moment": "^2.13.0"
+    "@types/moment": "^2.13.0",
+    "craco-alias": "^3.0.1"
   }
 }

@@ -1,9 +1,3 @@
-.container {
-  margin-top: 17px;
-  background-color: white;
-  border-radius: 8px;
-}
-
 .subContainer {
   display: flex;
   border-bottom: solid 1px #efefef;
@@ -19,4 +13,15 @@
   flex-grow: 1;
   display: flex;
   justify-content: flex-end;
+}
+
+.teamMember {
+  display: flex;
+  padding: 8px 37px;
+  align-items: center;
+  background-color: #f7f6ff;
+}
+
+.teamMember > * {
+  min-width: 336px;
 }

@@ -1,9 +1,7 @@
-import { KeyboardArrowDownRounded } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
-import {} from "framer-motion";
 import React from "react";
-import { useTeamsPerformanceQuery } from "../../../../../data/teams/use-teamsPerformance.query";
-import { Typography } from "../../../../common";
+import { useTeamsPerformanceQuery } from "@data/teams/use-teamsPerformance.query";
+import { Typography } from "@components/common";
+import { TeamContainer } from "../TeamContainer";
 import classes from "./styles.module.css";
 
 export const TeamsHeader = () => {
@@ -17,10 +15,13 @@ export const TeamsHeader = () => {
       ? data?.data?.reduce((prev, curr) => {
           const newVal = {
             ...prev,
-            [curr.team]:
-              typeof (prev as any)[curr.team] === "undefined"
-                ? [{ ...curr, isOpen: false }]
-                : [...(prev as any)[curr.team], { ...curr, isOpen: false }],
+            [curr.team]: {
+              info:
+                typeof (prev as any)[curr.team] === "undefined"
+                  ? [curr]
+                  : [...(prev as any)[curr.team].info, curr],
+              isOpen: false,
+            },
           };
           return newVal;
         }, {})
@@ -31,6 +32,16 @@ export const TeamsHeader = () => {
     setTeams(getTeamByNames()!!);
   }, [getTeamByNames]);
 
+  const toggleShowTeam = (team: any) => {
+    setTeams({
+      ...teams,
+      [team]: {
+        ...(teams as any)[team],
+        isOpen: !(teams as any)[team].isOpen,
+      },
+    });
+  };
+
   return (
     <>
       {data?.data && (
@@ -40,15 +51,12 @@ export const TeamsHeader = () => {
             <Typography variant="h3">Overall Performance</Typography>
           </div>
           {Object.keys(teams).map((name) => (
-            <div className={classes.subContainer} key={name}>
-              <Typography variant="h4">Team {name}</Typography>
-              <Typography variant="h4">100/200</Typography>
-              <div className={classes.buttonContainer}>
-                <IconButton>
-                  <KeyboardArrowDownRounded />
-                </IconButton>
-              </div>
-            </div>
+            <TeamContainer
+              name={name}
+              key={name}
+              toggleShowTeam={toggleShowTeam}
+              team={(teams as any)[name]}
+            />
           ))}
         </div>
       )}

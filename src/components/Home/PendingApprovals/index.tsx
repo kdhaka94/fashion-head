@@ -1,4 +1,4 @@
-import { Typography } from "../../common";
+import { Typography } from "@components/common";
 import { ApprovalsContainer } from "./elements/ApprolvalsContainer";
 import classes from "./styles.module.css";
 

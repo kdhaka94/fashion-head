@@ -1,9 +1,9 @@
 export interface TeamsPerformance {
   status: number;
   message: string;
-  data?: (DataEntity)[] | null;
+  data?: (TeamDataEntity)[] | null;
 }
-export interface DataEntity {
+export interface TeamDataEntity {
   id: string;
   team: string;
   firstName: string;

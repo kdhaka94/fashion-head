@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { CoreApi } from "../../utils/api/core-api";
-import { API_ENDPOINTS } from "../../utils/api/endpoints";
+import { CoreApi } from "@utils/api/core-api";
+import { API_ENDPOINTS } from "@utils/api/endpoints";
 import { TeamsPerformance } from "./types";
 
 const TeamsPerformancesService = new CoreApi("");

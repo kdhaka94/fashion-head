@@ -3,7 +3,7 @@ import { IconButton } from "@mui/material";
 import { Button, Image, Typography } from "../../../../common";
 import classes from "./styles.module.css";
 import moment from "moment";
-import { DATE_FORMAT } from "../../../../../utils/constants";
+import { DATE_FORMAT } from "@utils/constants";
 
 export const Approval = ({
   productImg = "https://mui.com/static/images/avatar/1.jpg",

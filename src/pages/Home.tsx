@@ -1,7 +1,7 @@
-import { Container } from "../components/Container";
-import { Header } from "../components/Header";
-import { PendingApprovals } from "../components/Home/PendingApprovals";
-import { Teams } from "../components/Home/Teams";
+import { Container } from "@components/Container";
+import { Header } from "@components/Header";
+import { PendingApprovals } from "@components/Home/PendingApprovals";
+import { Teams } from "@components/Home/Teams";
 
 export const HomePage = () => {
   return (
