@@ -39,8 +39,26 @@ const theme = createTheme({
           padding: "5px 36px",
         },
         outlined: {
-          fontSize: "14px",
           color: colors.primary.main,
+          backgroundColor: "white",
+        },
+        sizeSmall: {
+          fontFamily: "Manrope",
+          fontSize: "14px",
+          fontWeight: "bold",
+          fontStretch: "normal",
+          fontStyle: "normal",
+          lineHeight: 1.64,
+          letterSpacing: "normal",
+        },
+        outlinedSizeSmall: {
+          fontFamily: "Manrope",
+          fontSize: "14px",
+          fontWeight: "bold",
+          fontStretch: "normal",
+          fontStyle: "normal",
+          lineHeight: 1.64,
+          letterSpacing: "normal",
         },
       },
     },
@@ -55,7 +73,7 @@ const theme = createTheme({
           letterSpacing: "normal",
         },
       },
-    },
+    },  
   },
 });
 

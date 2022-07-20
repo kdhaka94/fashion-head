@@ -1,5 +1,6 @@
 export const API_ENDPOINTS = {
   LOGIN: "loginAddedUsers",
   PENDING_PRODUCTS: "getPendingProducts",
-  TEAMS_PERFORMANCE:"teamsPerformance"
+  TEAMS_PERFORMANCE: "teamsPerformance",
+  THEMES: "getOSPThemes",
 };

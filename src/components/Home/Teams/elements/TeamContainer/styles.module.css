@@ -25,3 +25,9 @@
 .teamMember > * {
   min-width: 336px;
 }
+
+.addMember {
+  padding: 16px 37px 24px 37px;
+  background-color: #f7f6ff;
+
+}

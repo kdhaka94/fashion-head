@@ -1,0 +1,13 @@
+.subContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container {
+}
+
+.filtersContainer {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}

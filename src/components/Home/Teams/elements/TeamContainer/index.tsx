@@ -1,12 +1,15 @@
+import { Button, Typography } from "@components/common";
+import { TeamDataEntity } from "@data/teams/types";
 import {
   KeyboardArrowDownRounded,
   KeyboardArrowUpRounded,
 } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
-import { TeamDataEntity } from "@data/teams/types";
-import { Typography } from "@components/common";
-import classes from "./styles.module.css";
+import AddIcon from "@mui/icons-material/Add";
+import { Collapse, IconButton } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
+import { TransitionGroup } from "react-transition-group";
+import classes from "./styles.module.css";
+
 type TeamType = {
   info: TeamDataEntity[];
   isOpen: boolean;
@@ -37,26 +40,38 @@ export const TeamContainer = ({ name, toggleShowTeam, team }: IProps) => {
           </IconButton>
         </div>
       </motion.div>
-      {team.isOpen && (
-        <motion.div animate>
-          <div className={classes.teamMember}>
-            <Typography variant="h4">Name</Typography>
-            <Typography variant="h4">Selection</Typography>
-            <Typography variant="h4">Order</Typography>
-            <Typography variant="h4">Work Hours</Typography>
-          </div>
-          {team.info.map((teamData) => (
-            <div className={classes.teamMember}>
-              <Typography variant="caption">{`${teamData.firstName} ${teamData.lastName}`}</Typography>
-              <Typography variant="caption">
-                {teamData.totalSelected}
-              </Typography>
-              <Typography variant="caption">{teamData.totalOrder}</Typography>
-              <Typography variant="caption">{teamData.hours}</Typography>
-            </div>
-          ))}
-        </motion.div>
-      )}
+      <TransitionGroup>
+        {team.isOpen && (
+          <Collapse>
+            <motion.div animate>
+              <div className={classes.teamMember}>
+                <Typography variant="h4">Name</Typography>
+                <Typography variant="h4">Selection</Typography>
+                <Typography variant="h4">Order</Typography>
+                <Typography variant="h4">Work Hours</Typography>
+              </div>
+              {team.info.map((teamData) => (
+                <div className={classes.teamMember}>
+                  <Typography variant="caption">{`${teamData.firstName} ${teamData.lastName}`}</Typography>
+                  <Typography variant="caption">
+                    {teamData.totalSelected}
+                  </Typography>
+                  <Typography variant="caption">
+                    {teamData.totalOrder}
+                  </Typography>
+                  <Typography variant="caption">{teamData.hours}</Typography>
+                </div>
+              ))}
+              <div className={classes.addMember}>
+                <Button variant="outlined" size="small">
+                  <AddIcon />
+                  Add A Member
+                </Button>
+              </div>
+            </motion.div>
+          </Collapse>
+        )}
+      </TransitionGroup>
     </AnimatePresence>
   );
 };
