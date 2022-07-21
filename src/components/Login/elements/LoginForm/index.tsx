@@ -2,13 +2,13 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import React from "react";
 import * as yup from "yup";
-import { useLoginMutation } from "../../../../data/auth/use-login.mutation";
-import { validateEmail } from "../../../../utils/helpers";
-import { FormValues } from "../../../../utils/types";
-import { Button } from "../../../common/Button";
-import { Input } from "../../../common/Input";
-import { Link } from "../../../common/Link";
-import { Typography } from "../../../common/Typography";
+import { useLoginMutation } from "@data/auth/use-login.mutation";
+import { validateEmail } from "@utils/helpers";
+import { FormValues } from "@utils/types";
+import { Button } from "@components/common/Button";
+import { Input } from "@components/common/Input";
+import { Link } from "@components/common/Link";
+import { Typography } from "@components/common/Typography";
 import classes from "./styles.module.css";
 
 export type LoginFormValuesType = {
@@ -50,10 +50,6 @@ export const LoginForm = () => {
     });
   };
 
-  const toggleShowPass = () => {
-    setShowPass(!showPass);
-  };
-
   const setError = (field: "email" | "password", error: string) => {
     setState({
       ...state,
@@ -63,6 +59,10 @@ export const LoginForm = () => {
       },
     });
   };
+  const toggleShowPass = () => {
+    setShowPass(!showPass);
+  };
+
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

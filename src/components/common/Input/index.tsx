@@ -30,6 +30,6 @@ export const Input = ({ label, errorText = "", ...rest }: IProps) => {
   );
 };
 
-const InputLabel = ({ title }: { title: any }) => {
+export const InputLabel = ({ title }: { title: any }) => {
   return <Typography className={classes.inputLabel}>{title}</Typography>;
 };
