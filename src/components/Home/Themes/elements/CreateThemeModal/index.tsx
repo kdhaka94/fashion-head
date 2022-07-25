@@ -5,12 +5,13 @@ import {
   InputLabel,
   Typography,
 } from "@components/common";
-import { Modal } from "@components/common/Modal";
+import { Autocomplete } from "@components/common/Autocomplete";
+import { Modal, ModalActions, ModalBody } from "@components/common/Modal";
 import { AddRounded } from "@mui/icons-material";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import React from "react";
 import classes from "./styles.module.css";
-import { INITIAL_STATE, StateNameType } from "./types";
+import { dataTemplate, INITIAL_STATE, StateNameType } from "./types";
 
 export const CreateThemeModal = () => {
   const [open, setOpen] = React.useState(false);
@@ -45,70 +46,114 @@ export const CreateThemeModal = () => {
         <AddRounded /> Create A Theme
       </Button>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <div className={classes.container}>
-          <Typography variant="h1">Create Theme</Typography>
-          <div className={classes.flexContainer}>
-            <div className={classes.imageContainer}>
-              <div>
-                <Image
-                  src="/assets/images/camera-icon.webp"
-                  width={62}
-                  height={50}
-                />
-                <Typography variant="body2" align="center" color="#a3a3a3">
-                  Add Theme
-                  <br />
-                  Photo
-                </Typography>
+        <ModalBody>
+          <div className={classes.container}>
+            <Typography variant="h1">Create Theme</Typography>
+            <div className={classes.flexContainer}>
+              <div className={classes.imageContainer}>
+                <div>
+                  <Image
+                    src="/assets/images/camera-icon.webp"
+                    width={62}
+                    height={50}
+                  />
+                  <Typography variant="body2" align="center" color="#a3a3a3">
+                    Add Theme
+                    <br />
+                    Photo
+                  </Typography>
+                </div>
+                <Button variant="outlined" size="small">
+                  <Image
+                    src="/assets/images/upload-icon.webp"
+                    width={18}
+                    height={18}
+                  />
+                  &nbsp; Upload a Photo
+                </Button>
               </div>
-              <Button variant="outlined" size="small">
-                <Image
-                  src="/assets/images/upload-icon.webp"
-                  width={18}
-                  height={18}
+              <div className={classes.inputsContainer}>
+                <Input
+                  placeholder="Enter theme name"
+                  label="Theme Name"
+                  name="theme"
+                  onChange={handleChange}
+                  value={state.theme.value}
+                  error={!!state.theme.error}
+                  errorText={state.theme.error}
+                  fullWidth
                 />
-                &nbsp; Upload a Photo
-              </Button>
+                <div>
+                  <InputLabel title="Gender" />
+                  <RadioGroup defaultValue="male" name="gender" row>
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio />}
+                      label="Male"
+                    />
+                    <FormControlLabel
+                      value="female"
+                      control={<Radio />}
+                      label="Female"
+                    />
+                  </RadioGroup>
+                </div>
+                <Autocomplete
+                  placeholder="Select Team"
+                  label="Team Name"
+                  name="team"
+                  // onChange={handleChange}
+                  // value={state.team.value}
+                  // error={!!state.team.error}
+                  // errorText={state.team.error}
+                  fullWidth
+                  options={dataTemplate}
+                />
+              </div>
             </div>
-            <div className={classes.inputsContainer}>
-              <Input
-                placeholder="Enter theme name"
-                label="Theme Name"
-                name="theme"
-                onChange={handleChange}
-                value={state.theme.value}
-                error={!!state.theme.error}
-                errorText={state.theme.error}
-                fullWidth
-              />
-              <div>
-                <InputLabel title="Gender" />
-                <RadioGroup defaultValue="male" name="gender" row>
-                  <FormControlLabel
-                    value="male"
-                    control={<Radio />}
-                    label="Male"
-                  />
-                  <FormControlLabel
-                    value="female"
-                    control={<Radio />}
-                    label="Female"
-                  />
-                </RadioGroup>
-              </div>
-              <Input
-                placeholder="Enter team name"
-                label="Team Name"
+            <div className={`${classes.flexContainer} ${classes["gap-20"]}`}>
+              <Autocomplete
+                placeholder="Search Brand"
+                label="Brand(Optional)"
                 name="team"
-                onChange={handleChange}
-                value={state.team.value}
-                error={!!state.team.error}
-                errorText={state.team.error}
+                // onChange={handleChange}
+                // value={state.team.value}
+                // error={!!state.team.error}
+                // errorText={state.team.error}
+
                 fullWidth
+                options={dataTemplate}
+              />
+              <Autocomplete
+                placeholder="Plan"
+                label="Choose Plan"
+                name="team"
+                // onChange={handleChange}
+                // value={state.team.value}
+                // error={!!state.team.error}
+                // errorText={state.team.error}
+                fullWidth
+                options={dataTemplate}
               />
             </div>
+            <Autocomplete
+              placeholder="Category(Optional)"
+              label="Search Category"
+              name="team"
+              // onChange={handleChange}
+              // value={state.team.value}
+              // error={!!state.team.error}
+              // errorText={state.team.error}
+              fullWidth
+              options={dataTemplate}
+            />
           </div>
-        </div>
+        </ModalBody>
+        <ModalActions>
+          <div className={classes.submitContainer}>
+            <Button>Submit</Button>
+          </div>
+        </ModalActions>
       </Modal>
     </>
   );

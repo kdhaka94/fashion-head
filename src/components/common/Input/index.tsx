@@ -1,21 +1,21 @@
-import {
-  FormHelperText,
-  OutlinedInput,
-  OutlinedInputProps,
-} from "@mui/material";
+  import {
+    FormHelperText,
+    OutlinedInput,
+    OutlinedInputProps,
+  } from "@mui/material";
 import { Typography } from "../Typography";
 import classes from "./styles.module.css";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
-type IProps = {
+export type IPropsInput = {
   errorText?: string;
 } & OutlinedInputProps;
 
-const getWidth = (fullWidth: boolean) => ({
+export const getWidth = (fullWidth: boolean) => ({
   width: fullWidth ? "100%" : "auto",
 });
 
-export const Input = ({ label, errorText = "", ...rest }: IProps) => {
+export const Input = ({ label, errorText = "", ...rest }: IPropsInput) => {
   return (
     <div style={getWidth(!!rest.fullWidth)}>
       {label && <InputLabel title={label} />}

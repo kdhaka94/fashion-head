@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.justifyCenter {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileImage {
+  border-radius: 78px;
+  margin-bottom: 16px;
+}
+
+.userInfoContainer {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.userInfoContainer > div {
+  display: flex;
+  gap: 12px;
+}
+
+.orderInfoContainer {
+  border-radius: 8px;
+  background-color: #f7f6ff;
+  display: flex;
+  justify-content: center;
+  padding: 21px 41px;
+  gap: 80px;
+}
+
+.subTextContainer {
+  width: 460px;
+}

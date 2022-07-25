@@ -4,7 +4,6 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 40px;
   border-radius: 16px;
 }
 
@@ -13,4 +12,13 @@
   right: 0;
   top: 0;
   margin: 12px;
+}
+
+.modalBody {
+  padding: 40px;
+}
+
+.modalActions {
+  padding: 30px;
+  border-top: solid 1px #cbcbcb;
 }

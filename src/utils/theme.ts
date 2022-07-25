@@ -73,7 +73,22 @@ const theme = createTheme({
           letterSpacing: "normal",
         },
       },
-    },  
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        input: {
+          padding: 0,
+        },
+        root: {
+          " & .MuiOutlinedInput-root": {
+            padding: "8px 12px",
+          },
+          " & .MuiOutlinedInput-root .MuiAutocomplete-input": {
+            padding: 0
+          },
+        },
+      },
+    },
   },
 });
 
