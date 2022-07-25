@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.imageContainer {
+  width: 100%;
+  border: solid 1px #efefef;
+  background-color: #fff;
+  padding: 22px;
+}
+
+.imageContainer img {
+  width: 100%;
+  border-radius: 8px;
+  border: solid 1px #efefef;
+}

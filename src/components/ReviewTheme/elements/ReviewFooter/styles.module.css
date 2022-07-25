@@ -1,0 +1,10 @@
+.container {
+  padding: 14px;
+  background-color: white;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
+  position: sticky;
+  bottom: 0;
+}

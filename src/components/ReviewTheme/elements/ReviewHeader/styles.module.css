@@ -1,0 +1,33 @@
+.heading {
+  display: flex;
+  align-items: center;
+}
+
+.navbar {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 0 60px;
+}
+
+.userInfoContainer {
+  display: flex;
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.75;
+  letter-spacing: normal;
+  color: #121212;
+  align-items: center;
+  gap: 3px;
+}
+
+.userInfoContainer span {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  gap: 10px;
+}
