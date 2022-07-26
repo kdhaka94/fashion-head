@@ -1,0 +1,26 @@
+.container {
+  border-collapse: collapse;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.container td {
+  padding: 16px 40px;
+  border-bottom: solid 1px #ededed;
+}
+
+.container > tr > td:nth-child(1) {
+  width: 50%;
+}
+.footerRow > td {
+  border-bottom: transparent;
+}
+.footerRow {
+  background-color: #efeffa;
+}
+
+.centerlize {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,17 @@
+.container {
+  width: 30%;
+  padding: 24px;
+  border-radius: 8px;
+  background-color: #ffedb5;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.list {
+  margin: 0;
+  padding-left: 15px;
+}
+
+.list li {
+}

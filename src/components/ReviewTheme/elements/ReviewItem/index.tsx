@@ -4,7 +4,7 @@ import React from "react";
 import classes from "./styles.module.css";
 
 export const ReviewItem = ({
-  image = "https://mui.com/static/images/avatar/1.jpg",
+  image = " ",
   name = "Printed Cotten",
 }) => {
   return (

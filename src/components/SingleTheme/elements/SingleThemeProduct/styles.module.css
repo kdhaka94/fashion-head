@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  gap: 26px;
+  padding: 0 60px;
+  width: 100%;
+  margin-top: 28px;
+}
+
+.productInfoContainer {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+
+
+.productContainer {
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 16px;
+  display: flex;
+  gap: 40px;
+}
+
+.productContainer img {
+  border-radius: 8px;
+}
+
+.productData {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.productData > div {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 20px 0;
+}

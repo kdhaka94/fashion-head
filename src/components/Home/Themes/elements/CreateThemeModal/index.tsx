@@ -63,7 +63,8 @@ export const CreateThemeModal = () => {
                     Photo
                   </Typography>
                 </div>
-                <Button variant="outlined" size="small">
+                <Button variant="outlined" size="small" component="label">
+                  <input hidden accept="image/*" multiple type="file" />
                   <Image
                     src="/assets/images/upload-icon.webp"
                     width={18}

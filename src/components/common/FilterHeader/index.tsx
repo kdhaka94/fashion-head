@@ -3,10 +3,17 @@ import { Autocomplete } from "@components/common/Autocomplete";
 import React from "react";
 import classes from "./styles.module.css";
 
-export const ReviewFilter = () => {
+type IProps = {
+  headerName: string;
+  onChange?: (filter: string) => void;
+  className?: string;
+};
+// TODO: Implement onChange for select autocomplete
+export const FilterHeader = ({ headerName, onChange, className }: IProps) => {
+  const classNames = [classes.container, className].join(" ");
   return (
-    <div className={classes.container}>
-      <Typography variant="h3">Review Theme</Typography>
+    <div className={classNames}>
+      <Typography variant="h2">{headerName}</Typography>
       <div className={classes.filterContainer}>
         <Typography variant="caption">Filter by</Typography>
         <Autocomplete
