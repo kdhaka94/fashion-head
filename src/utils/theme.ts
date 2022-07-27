@@ -20,6 +20,7 @@ const theme = createTheme({
           border: "solid 1px #d5d9e0",
           fontFamily: "Manrope",
           backgroundColor: "#fff",
+          padding: 0,
         },
         input: {
           padding: "8px 12px",
@@ -60,7 +61,6 @@ const theme = createTheme({
           lineHeight: 1.64,
           letterSpacing: "normal",
         },
-        
       },
     },
 
@@ -85,7 +85,7 @@ const theme = createTheme({
             padding: "8px 12px",
           },
           " & .MuiOutlinedInput-root .MuiAutocomplete-input": {
-            padding: 0
+            padding: 0,
           },
         },
       },

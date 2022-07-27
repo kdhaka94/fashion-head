@@ -9,7 +9,7 @@ export const ViewProfileModal = ({
   email = "kdhaka94@gmail.com",
   phoneNumber = "+919509605119",
 }) => {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   return (
     <Modal open={open} onClose={() => setOpen(false)}>

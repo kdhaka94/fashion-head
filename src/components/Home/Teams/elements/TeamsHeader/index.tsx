@@ -3,6 +3,7 @@ import { useTeamsPerformanceQuery } from "@data/teams/use-teamsPerformance.query
 import { Typography } from "@components/common";
 import { TeamContainer } from "../TeamContainer";
 import classes from "./styles.module.css";
+import { AddMemberModal } from "../AddMemberModal";
 
 export const TeamsHeader = () => {
   const { data } = useTeamsPerformanceQuery();
@@ -60,6 +61,7 @@ export const TeamsHeader = () => {
           ))}
         </div>
       )}
+      <AddMemberModal />
     </>
   );
 };
