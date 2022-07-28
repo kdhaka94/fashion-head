@@ -3,7 +3,7 @@ import { IconButton } from "@mui/material";
 import React from "react";
 import * as yup from "yup";
 import { useLoginMutation } from "@data/auth/use-login.mutation";
-import { validateEmail } from "@utils/helpers";
+import { getAllFieldValues, validateEmail } from "@utils/helpers";
 import { FormValues } from "@utils/types";
 import { Button } from "@components/common/Button";
 import { Input } from "@components/common/Input";
@@ -27,9 +27,11 @@ const INITIAL_STATE = {
   },
 };
 
-const loginFormSchema = yup.object().shape({
-  email: yup.string().email("Email is not valid").required("Email is required"),
+type StateNameType = keyof typeof INITIAL_STATE;
+
+const loginFormSchema = yup.object({
   password: yup.string().required("Password is required"),
+  email: yup.string().required("Email is required").email("Email is not valid"),
 });
 
 export const LoginForm = () => {
@@ -42,15 +44,15 @@ export const LoginForm = () => {
   ) => {
     setState({
       ...state,
-      [e.currentTarget.name as "email" | "password"]: {
-        ...state[e.currentTarget.name as "email" | "password"],
+      [e.currentTarget.name as StateNameType]: {
+        ...state[e.currentTarget.name as StateNameType],
         value: e.currentTarget.value,
         error: "",
       },
     });
   };
 
-  const setError = (field: "email" | "password", error: string) => {
+  const setError = (field: StateNameType, error: string) => {
     setState({
       ...state,
       [field]: {
@@ -63,30 +65,23 @@ export const LoginForm = () => {
     setShowPass(!showPass);
   };
 
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!state.email.value) {
-      setError("email", "Email is required");
-      return;
-    }
-    if (!validateEmail(state.email.value)) {
-      setError("email", "Email not valid");
-      return;
-    }
-    if (!state.password.value) {
-      setError("password", "Password is required");
-      return;
-    }
-
-    login(
-      { email: state.email.value, password: state.password.value },
-      {
-        onSuccess: (data) => {
-          console.log({ data });
-        },
+    try {
+      const result = await loginFormSchema.validate(getAllFieldValues(state));
+      login(
+        { ...result },
+        {
+          onSuccess: (data) => {
+            console.log({ data });
+          },
+        }
+      );
+    } catch (err) {
+      if (err instanceof yup.ValidationError) {
+        setError(err.path as StateNameType, err.message);
       }
-    );
+    }
   };
 
   return (
@@ -112,7 +107,7 @@ export const LoginForm = () => {
             onChange={handleChange}
             value={state.password.value}
             error={!!state.password.error}
-            errorText={state.email.error}
+            errorText={state.password.error}
             endAdornment={
               <IconButton onClick={toggleShowPass}>
                 {showPass ? <Visibility /> : <VisibilityOff />}

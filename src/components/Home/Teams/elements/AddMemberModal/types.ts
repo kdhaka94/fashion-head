@@ -7,9 +7,21 @@ export const INITIAL_STATE = {
     value: "",
     error: "",
   },
+  email: {
+    value: "",
+    error: "",
+  },
+  notes: {
+    value: "",
+    error: "",
+  },
+  gender: {
+    value: "male",
+    error: "",
+  },
 };
 
-export type StateNameType = "name" | "phoneNumber";
+export type StateNameType = keyof typeof INITIAL_STATE;
 
 export const dataTemplate = [
   { title: "A" },

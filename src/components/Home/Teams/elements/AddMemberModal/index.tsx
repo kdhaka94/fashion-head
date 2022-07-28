@@ -1,10 +1,10 @@
 import {
-  Autocomplete,
-  Button,
-  Input,
-  InputLabel,
-  TextField,
-  Typography,
+    Autocomplete,
+    Button,
+    Input,
+    InputLabel,
+    TextField,
+    Typography
 } from "@components/common";
 import { Modal, ModalActions, ModalBody } from "@components/common/Modal";
 import { dataTemplate } from "@components/Home/Themes/elements/CreateThemeModal/types";
@@ -62,7 +62,7 @@ export const AddMemberModal = () => {
               />
               <div className={classes.radioContainer}>
                 <InputLabel title="Gender" />
-                <RadioGroup defaultValue="male" name="gender" row>
+                <RadioGroup defaultValue="male" name="gender" row onChange={handleChange} value={state.gender.value}>
                   <FormControlLabel
                     value="male"
                     control={<Radio />}
@@ -82,10 +82,10 @@ export const AddMemberModal = () => {
               placeholder="Enter Phone Number"
               label="Phone Number"
               name="phoneNumber"
-              // onChange={handleChange}
-              // value={state.team.value}
-              // error={!!state.team.error}
-              // errorText={state.team.error}
+              onChange={handleChange}
+              value={state.phoneNumber.value}
+              error={!!state.phoneNumber.error}
+              errorText={state.phoneNumber.error}
 
               fullWidth
             />
@@ -93,10 +93,10 @@ export const AddMemberModal = () => {
               placeholder="Enter Email"
               label="Email"
               name="email"
-              // onChange={handleChange}
-              // value={state.team.value}
-              // error={!!state.team.error}
-              // errorText={state.team.error}
+              onChange={handleChange}
+              value={state.email.value}
+              error={!!state.email.error}
+              errorText={state.email.error}
               fullWidth
             />
           </div>
@@ -152,6 +152,8 @@ export const AddMemberModal = () => {
             placeholder="Write notes here"
             label="Notes"
             name="notes"
+            onChange={handleChange}
+            value={state.notes.value}
             multiline
             minRows={5}
             fullWidth

@@ -9,7 +9,7 @@ export const INITIAL_STATE = {
   },
 };
 
-export type StateNameType = "theme" | "team";
+export type StateNameType = keyof typeof INITIAL_STATE;
 
 export const dataTemplate = [
     { title: "A" },
