@@ -1,3 +1,4 @@
+import { ModalsContainer } from "@utils/zustand/ModalsContainer";
 import Cookies from "js-cookie";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { HomePage, LoginPage, ReviewThemes, SingleThemeReview } from "./pages";
@@ -19,6 +20,7 @@ function App() {
           <Route path="/theme" element={<SingleThemeReview />} />
         </Routes>
       </Router>
+      <ModalsContainer />
     </>
   );
 }

@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 200px;
+}
+
+.imageContainer > div {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  border: solid 1px #f5f5f5;
+  background-color: #efefef;
+}
+
+.flexContainer {
+  display: flex;
+  width: 100%;
+  gap: 50px;
+}
+
+.gap-20 {
+  gap: 20px;
+}
+
+.inputsContainer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.justifyCenter {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.radioContainer {
+  width: 100%;
+}

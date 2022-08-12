@@ -61,7 +61,6 @@ export const TeamsHeader = () => {
           ))}
         </div>
       )}
-      <AddMemberModal />
     </>
   );
 };

@@ -3,7 +3,8 @@ import {
   ClickAwayListener,
   IconButton,
   Modal as MuiModal,
-  ModalUnstyledProps
+  ModalUnstyledProps,
+  Portal,
 } from "@mui/material";
 import React from "react";
 import classes from "./styles.module.css";
@@ -31,18 +32,28 @@ export const Modal = ({
     onClose(rest.open);
   };
   return (
-    <MuiModal {...rest}>
-      <ClickAwayListener onClickAway={handleClose}>
-        <div className={classes.container} style={{ width: SIZES[size] }}>
-          {children}
-          <div className={classes.closeIconContainer}>
-            <IconButton onClick={handleClose}>
-              <Close />
-            </IconButton>
-          </div>
-        </div>
-      </ClickAwayListener>
-    </MuiModal>
+    <>
+      {rest.open && (
+        <Portal>
+        <MuiModal {...rest}>
+          <ClickAwayListener
+            onClickAway={() => {
+              handleClose();
+            }}
+          >
+            <div className={classes.container} style={{ width: SIZES[size] }}>
+              {children}
+              <div className={classes.closeIconContainer}>
+                <IconButton onClick={handleClose}>
+                  <Close />
+                </IconButton>
+              </div>
+            </div>
+          </ClickAwayListener>
+        </MuiModal>
+        </Portal>
+      )}
+    </>
   );
 };
 

@@ -42,3 +42,10 @@ export const dataTemplate = [
   { title: "Aq0ieoicm" },
   { title: "Aapwmdiqwmoim" },
 ];
+
+export type InputCompIProps = {
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  state: typeof INITIAL_STATE;
+};
