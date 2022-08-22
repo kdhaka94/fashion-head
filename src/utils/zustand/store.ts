@@ -2,7 +2,8 @@ import create from "zustand";
 import { HeadStoreTypes } from "./types";
 
 export const useHeadStore = create<HeadStoreTypes>((set, get) => ({
-  currentModals: ["addMember"],
+  currentModals: ["createTheme"],
+  user: null,
   openModal: (name) => {
     console.log({ opening: name });
     const current = get().currentModals;
@@ -14,5 +15,8 @@ export const useHeadStore = create<HeadStoreTypes>((set, get) => ({
     const current = get().currentModals;
     const removed = current.filter((curr) => curr !== name);
     set({ currentModals: removed });
+  },
+  setUser: (user) => {
+    set({ user });
   },
 }));

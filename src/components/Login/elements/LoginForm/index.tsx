@@ -1,14 +1,15 @@
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
-import React from "react";
-import * as yup from "yup";
-import { useLoginMutation } from "@data/auth/use-login.mutation";
-import { getAllFieldValues, validateEmail } from "@utils/helpers";
-import { FormValues } from "@utils/types";
 import { Button } from "@components/common/Button";
 import { Input } from "@components/common/Input";
 import { Link } from "@components/common/Link";
 import { Typography } from "@components/common/Typography";
+import { useLoginMutation } from "@data/auth/use-login.mutation";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+import { getAllFieldValues } from "@utils/helpers";
+import { FormValues } from "@utils/types";
+import { useHeadStore } from "@utils/zustand/store";
+import React from "react";
+import * as yup from "yup";
 import classes from "./styles.module.css";
 
 export type LoginFormValuesType = {
@@ -38,7 +39,7 @@ export const LoginForm = () => {
   const [showPass, setShowPass] = React.useState(false);
   const { mutate: login, isLoading } = useLoginMutation();
   const [state, setState] = React.useState(INITIAL_STATE);
-
+  const { setUser } = useHeadStore();
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -74,6 +75,11 @@ export const LoginForm = () => {
         {
           onSuccess: (data) => {
             console.log({ data });
+            if (data.data) setUser(data.data);
+            else setError("email", data.message);
+          },
+          onError: (err: any) => {
+            setError("email", err.response.data.message);
           },
         }
       );

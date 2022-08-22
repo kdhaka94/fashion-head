@@ -9,12 +9,14 @@ import { Autocomplete } from "@components/common/Autocomplete";
 import { Modal, ModalActions, ModalBody } from "@components/common/Modal";
 import { AddRounded } from "@mui/icons-material";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import { useHeadStore } from "@utils/zustand/store";
 import React from "react";
 import classes from "./styles.module.css";
 import { dataTemplate, INITIAL_STATE, StateNameType } from "./types";
 
 export const CreateThemeModal = () => {
-  const [open, setOpen] = React.useState(false);
+  const { closeModal, currentModals, openModal } = useHeadStore();
+  const isOpen = currentModals.includes("createTheme");
   const [state, setState] = React.useState(INITIAL_STATE);
 
   const handleChange = (
@@ -42,10 +44,14 @@ export const CreateThemeModal = () => {
 
   return (
     <>
-      <Button size="small" onClick={() => setOpen(true)} disabled={open}>
+      <Button
+        size="small"
+        onClick={() => openModal("createTheme")}
+        disabled={isOpen}
+      >
         <AddRounded /> Create A Theme
       </Button>
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal open={isOpen} onClose={() => closeModal("createTheme")}>
         <ModalBody>
           <div className={classes.container}>
             <Typography variant="h1">Create Theme</Typography>

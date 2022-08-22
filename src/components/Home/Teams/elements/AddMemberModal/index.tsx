@@ -8,13 +8,13 @@ import classes from "./styles.module.css";
 import { INITIAL_STATE, StateNameType } from "./types";
 
 // TODO: add api handlers for input fields
-// TODO: seprate batch input fields to seprate files and only pass required functions and state values
+// DONE: seprate batch input fields to seprate files and only pass required functions and state values - IN_PROGRESS
 // TODO: create a handleSubmit function and validater for the required and spacial values
 
 export const AddMemberModal = () => {
   const { closeModal, currentModals } = useHeadStore((state) => state);
   const [state, setState] = React.useState(INITIAL_STATE);
-
+  const isOpen = currentModals.includes("addMember");
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -38,10 +38,7 @@ export const AddMemberModal = () => {
     });
   };
   return (
-    <Modal
-      open={currentModals.includes("addMember")}
-      onClose={() => closeModal("addMember")}
-    >
+    <Modal open={isOpen} onClose={() => closeModal("addMember")}>
       <ModalBody>
         <div className={classes.container}>
           <Typography variant="h1">Add a member</Typography>
