@@ -7,6 +7,26 @@ export const INITIAL_STATE = {
     value: "",
     error: "",
   },
+  brands: {
+    value: [],
+    error: "",
+  },
+  plans: {
+    value: [],
+    error: "",
+  },
+  category: {
+    value: [],
+    error: "",
+  },
+  gender: {
+    value: "",
+    error: "",
+  },
+  rules: {
+    value: "",
+    error: "",
+  },
 };
 
 export type StateNameType = keyof typeof INITIAL_STATE;

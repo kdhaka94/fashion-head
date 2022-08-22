@@ -3,4 +3,7 @@ export const API_ENDPOINTS = {
   PENDING_PRODUCTS: "getPendingProducts",
   TEAMS_PERFORMANCE: "teamsPerformance",
   THEMES: "getOSPThemes",
+  BRANDS: "get_all_brands_mobile",
+  CATEGORY: "get_all_category_mobile",
+  PLANS: "get_all_plans_mobile",
 };

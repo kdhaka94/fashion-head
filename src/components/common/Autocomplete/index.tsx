@@ -5,16 +5,19 @@ import { IPropsTextField, TextField } from "../TextField";
 
 type IProps = {
   options?: Array<any>;
+  handleChange?:any;
   type?: "search" | "normal";
 } & IPropsTextField;
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-export const Autocomplete = ({ options = [], ...rest }: IProps) => {
+export const Autocomplete = ({ options = [],handleChange, ...rest }: IProps) => {
   return (
     <MuiAutocomplete
       multiple
+      disableCloseOnSelect
+      limitTags={1}
       options={options}
       getOptionLabel={(option: any) => option.title}
       renderOption={(props, option: any, params) => (
@@ -32,6 +35,7 @@ export const Autocomplete = ({ options = [], ...rest }: IProps) => {
         return <TextField {...params} {...rest} />;
       }}
       openOnFocus
+      onChange={handleChange}
       {...(rest as any)}
     />
   );
