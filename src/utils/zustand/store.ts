@@ -2,7 +2,7 @@ import create from "zustand";
 import { HeadStoreTypes } from "./types";
 
 export const useHeadStore = create<HeadStoreTypes>((set, get) => ({
-  currentModals: ["createTheme"],
+  currentModals: [],
   user: null,
   openModal: (name) => {
     console.log({ opening: name });

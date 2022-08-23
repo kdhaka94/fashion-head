@@ -6,4 +6,6 @@ export const API_ENDPOINTS = {
   BRANDS: "get_all_brands_mobile",
   CATEGORY: "get_all_category_mobile",
   PLANS: "get_all_plans_mobile",
+  UPLOAD_IMAGE:"uploadImages",
+  CREATE_THEME:"createTheme",
 };

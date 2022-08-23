@@ -4,7 +4,7 @@ export const INITIAL_STATE = {
     error: "",
   },
   team: {
-    value: "",
+    value: [],
     error: "",
   },
   brands: {
@@ -23,6 +23,14 @@ export const INITIAL_STATE = {
     value: "",
     error: "",
   },
+  image:{
+    value:[],
+    error:""
+  },
+  mediaPreview:{
+    value:"",
+    error:""
+  },
   rules: {
     value: "",
     error: "",
@@ -30,6 +38,14 @@ export const INITIAL_STATE = {
 };
 
 export type StateNameType = keyof typeof INITIAL_STATE;
+
+export const TeamsDefaultData = [
+  { title: "A",key:"A" },
+  { title: "B",key:"B" },
+  { title: "C",key:"C" },
+  { title: "D",key:"D" },
+];
+
 
 export const dataTemplate = [
     { title: "A" },

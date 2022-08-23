@@ -13,10 +13,12 @@ import { usePlansQuery } from "@data/plans/use-plans.query";
 import { AddRounded } from "@mui/icons-material";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { useHeadStore } from "@utils/zustand/store";
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./styles.module.css";
-import { dataTemplate, INITIAL_STATE, StateNameType } from "./types";
+import { dataTemplate, INITIAL_STATE, StateNameType, TeamsDefaultData } from "./types";
 import Editor from "@components/common/TextEditor";
+import { useUploadImageMutation } from "@data/uploadImage/upload-image.mutation";
+import { useCreateThemeMutation } from "@data/createTheme/create-theme.mutation";
 
 export const CreateThemeModal = () => {
   const { closeModal, currentModals, openModal } = useHeadStore();
@@ -26,10 +28,14 @@ export const CreateThemeModal = () => {
   const { data: brandsData } = useBrandsQuery();
   const { data: plansData } = usePlansQuery();
   const { data: categoryData } = useCategoryQuery();
+  const { mutate: uploadImage,isLoading:uploadImageLoading } = useUploadImageMutation();
+  const { mutate: createTheme,isLoading } = useCreateThemeMutation();
 
 
 
-  const [teams, setTeams] = React.useState([]);
+  const [teams, setTeams] = React.useState([{
+    title:""
+  }]);
   const [plans, setPlans] = React.useState([]);
   const [category, setCategory] = React.useState([]);
   const [brands, setBrands] = React.useState([]);
@@ -119,8 +125,50 @@ export const CreateThemeModal = () => {
 
   const submitData = ()=>{
     console.log(state);
+    let data ={
+      title: state.theme.value, 
+      images: state.image.value,
+      categories: state.category.value, 
+      brands: state.brands.value,
+      gender: state.gender.value,
+      team: state.team.value,
+      plan: state.plans.value,
+      rules: state.rules.value,
+      minPrice: 2200,
+      maxPrice: 5000
+    }
+    createTheme(
+      data,
+      {
+        onSuccess: (data) => {
+          console.log({ data });
+        },
+        onError: (err: any) => {
+
+        },
+      }
+    )
   }
 
+  const fileChange = (event:any) =>{
+    handleChangeAutoComplete('mediaPreview',URL.createObjectURL(event.target.files[0]));
+    uploadImage(
+      event.target.files[0],
+      {
+        onSuccess: (data) => {
+          handleChangeAutoComplete('image',data.data);
+          handleChangeAutoComplete('mediaPreview',URL.createObjectURL(event.target.files[0]));
+        },
+        onError: (err: any) => {
+
+        },
+      }
+    )
+  }
+
+  useEffect(() => {
+    console.log(state);
+  }, [state])
   return (
     <>
       <Button
@@ -136,20 +184,33 @@ export const CreateThemeModal = () => {
             <Typography variant="h1">Create Theme</Typography>
             <div className={classes.flexContainer}>
               <div className={classes.imageContainer}>
-                <div>
-                  <Image
-                    src="/assets/images/camera-icon.webp"
-                    width={62}
-                    height={50}
-                  />
-                  <Typography variant="body2" align="center" color="#a3a3a3">
-                    Add Theme
-                    <br />
-                    Photo
-                  </Typography>
-                </div>
-                <Button variant="outlined" size="small" component="label">
-                  <input hidden accept="image/*" multiple type="file" />
+                {
+                  state.mediaPreview.value ?
+                  <>
+                    <Image
+                      src={state.mediaPreview.value}
+                      width={200}
+                      height={200}
+                    />
+                  </> :<>
+                  <div>
+                    <Image
+                      src={"/assets/images/camera-icon.webp"}
+                      width={62}
+                      height={50}
+                    />
+                    <Typography variant="body2" align="center" color="#a3a3a3">
+                      Add Theme
+                      <br />
+                      Photo
+                    </Typography>
+                  </div>
+                  </>
+                }
+                <Button variant="outlined" size="small" disabled={uploadImageLoading} component="label">
+                  <input hidden accept="image/*" type="file" onChange={e => {
+                       fileChange(e)
+                    }} />
                   <Image
                     src="/assets/images/upload-icon.webp"
                     width={18}
@@ -194,12 +255,12 @@ export const CreateThemeModal = () => {
                   placeholder="Select Team"
                   label="Team Name"
                   name="team"
-                  // onChange={handleChange}
-                  // value={state.team.value}
-                  // error={!!state.team.error}
-                  // errorText={state.team.error}
+                  handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('team',newValue)}}
+                  value={state.team.value}
+                  error={!!state.team.error}
+                  errorText={state.team.error}
                   fullWidth
-                  options={dataTemplate}
+                  options={TeamsDefaultData}
                 />
               </div>
             </div>
@@ -248,7 +309,7 @@ export const CreateThemeModal = () => {
         </ModalBody>
         <ModalActions>
           <div className={classes.submitContainer}>
-            <Button onClick={submitData} >Submit</Button>
+            <Button onClick={submitData} disabled={isLoading} >Submit</Button>
           </div>
         </ModalActions>
       </Modal>

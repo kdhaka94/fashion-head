@@ -1,3 +1,5 @@
+import PrivateRoute from "@utils/PrivateRoute";
+import PublicRoute from "@utils/PublicRoute";
 import { ModalsContainer } from "@utils/zustand/ModalsContainer";
 import Cookies from "js-cookie";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -14,10 +16,38 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/review-theme" element={<ReviewThemes />} />
-          <Route path="/theme" element={<SingleThemeReview />} />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <HomePage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/review-theme"
+            element={
+              <PrivateRoute>
+                <ReviewThemes />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/theme"
+            element={
+              <PrivateRoute>
+                <SingleThemeReview />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </Router>
       <ModalsContainer />
