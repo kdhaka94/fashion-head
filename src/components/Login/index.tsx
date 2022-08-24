@@ -5,7 +5,7 @@ import classes from "./styles.module.css";
 
 export const Login = () => {
   return (
-    <>
+    
     <div className={classes.container}>
       <div className={classes.loginInfoLeft}>
         <div className={classes.justifyContainer}>
@@ -24,6 +24,6 @@ export const Login = () => {
         <LoginForm />
       </div>
     </div>
-    </>
+   
   );
 };
