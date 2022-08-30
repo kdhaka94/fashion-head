@@ -36,6 +36,45 @@ export const INITIAL_STATE = {
     error: "",
   },
 };
+export const STATE = {
+  theme: {
+    value: "SACHIN",
+    error: "",
+  },
+  team: {
+    value: ["SNUGGLE","FUN"],
+    error: "",
+  },
+  brands: {
+    value: ["Nike","Adidas"],
+    error: "",
+  },
+  plans: {
+    value: ["NOTHING","hiphip"],
+    error: "",
+  },
+  category: {
+    value: ["Coat And Pant","T-Shirt"],
+    error: "",
+  },
+  gender: {
+    value: "male",
+    error: "",
+  },
+  image:{
+    value:[],
+    error:""
+  },
+  mediaPreview:{
+    value:"https://mui.com/static/images/avatar/1.jpg",
+    error:""
+  },
+  rules: {
+    value: "Have some fun its getting late",
+    error: "",
+  },
+};
+
 
 export type StateNameType = keyof typeof INITIAL_STATE;
 

@@ -5,9 +5,11 @@ import {
   InputLabel,
   Typography,
 } from "@components/common";
+
 import { Autocomplete } from "@components/common/Autocomplete";
 import { Modal, ModalActions, ModalBody } from "@components/common/Modal";
 import { useBrandsQuery } from "@data/brands/use-brands.query";
+import { useGetOneThemeQuery } from "@data/getOneTheme/use-getOneTheme.query";
 import { useCategoryQuery } from "@data/category/use-category.query";
 import { usePlansQuery } from "@data/plans/use-plans.query";
 import { AddRounded } from "@mui/icons-material";
@@ -15,23 +17,29 @@ import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { useHeadStore } from "@utils/zustand/store";
 import React, { useEffect } from "react";
 import classes from "./styles.module.css";
-import { dataTemplate, INITIAL_STATE, StateNameType, TeamsDefaultData } from "./types";
+import { dataTemplate, INITIAL_STATE,STATE, StateNameType, TeamsDefaultData } from "./types";
 import Editor from "@components/common/TextEditor";
 import { useUploadImageMutation } from "@data/uploadImage/upload-image.mutation";
 import { useCreateThemeMutation } from "@data/createTheme/create-theme.mutation";
+import { useUpdateThemeMutation } from "@data/updateTheme/update-theme.mutation";
+import { validateEmail } from "@utils/helpers";
 
-export const CreateThemeModal = () => {
+export const CreateThemeModal = ({isEdit=false}) => {
   const { closeModal, currentModals, openModal } = useHeadStore();
-  const isOpen = currentModals.includes("createTheme");
+  const isOpen = currentModals.includes("createTheme") || currentModals.includes("updateTheme");
+  
   const [state, setState] = React.useState(INITIAL_STATE);
 
   const { data: brandsData } = useBrandsQuery();
   const { data: plansData } = usePlansQuery();
   const { data: categoryData } = useCategoryQuery();
+  const { data: ThemeData } = useGetOneThemeQuery();
   const { mutate: uploadImage,isLoading:uploadImageLoading } = useUploadImageMutation();
   const { mutate: createTheme,isLoading } = useCreateThemeMutation();
+  const { mutate: updateTheme,isLoading:updateThemeLoading } = useUpdateThemeMutation();
+  
 
-
+  
 
   const [teams, setTeams] = React.useState([{
     title:""
@@ -51,9 +59,35 @@ export const CreateThemeModal = () => {
     })
   }, [brandsData]);
 
+  const getOneTheme = React.useCallback(() => {
+    const arr={...state};
+   
+    const response=  ThemeData?.data?.theme ||STATE ; //STATE is just for testing
+  
+      arr.theme.value=response?.theme?.value
+     arr.team.value=response?.team?.value
+     arr.brands.value=response?.brands?.value
+     arr.category.value=response?.category?.value
+     arr.gender.value=response?.gender?.value
+     arr.image.value=response?.image?.value
+     arr.mediaPreview.value=response?.mediaPreview?.value
+     arr.rules.value=response?.rules?.value
+     arr.plans.value=response?.plans?.value
+    
+    console.log(arr);
+return arr;
+    
+   
+  },[ThemeData]);
   React.useEffect(() => {
     setBrands(getBrands()!!);
   }, [getBrands]);
+
+ React.useEffect(() => {
+  isEdit?setState(getOneTheme()):console.log("createtheme mode");
+ 
+ 
+  }, []);
 
   const getPlans = React.useCallback(() => {
     console.log(plansData);
@@ -137,6 +171,19 @@ export const CreateThemeModal = () => {
       minPrice: 2200,
       maxPrice: 5000
     }
+    isEdit?
+    updateTheme(
+      data,
+      {
+        onSuccess: (data) => {
+          console.log({ data });
+        },
+        onError: (err: any) => {
+
+        },
+      }
+    )
+    :
     createTheme(
       data,
       {
@@ -171,17 +218,18 @@ export const CreateThemeModal = () => {
   }, [state])
   return (
     <>
-      <Button
+     {!isEdit && <Button
         size="small"
         onClick={() => openModal("createTheme")}
         disabled={isOpen}
       >
         <AddRounded /> Create A Theme
-      </Button>
-      <Modal open={isOpen} onClose={() => closeModal("createTheme")}>
+      </Button>}
+      <Modal open={isOpen} onClose={() =>{ isEdit?closeModal("updateTheme"):closeModal("createTheme")}}>
         <ModalBody>
           <div className={classes.container}>
-            <Typography variant="h1">Create Theme</Typography>
+            {!isEdit?<Typography variant="h1">Create Theme</Typography>:
+            <Typography variant="h1">Update Theme</Typography>}
             <div className={classes.flexContainer}>
               <div className={classes.imageContainer}>
                 {
@@ -233,7 +281,7 @@ export const CreateThemeModal = () => {
                 <div>
                   <InputLabel title="Gender" />
                   <RadioGroup 
-                    defaultValue="male" 
+                    defaultValue="female" 
                     name="gender" 
                     value={state.gender.value}
                     onChange={handleChange} 
@@ -309,7 +357,7 @@ export const CreateThemeModal = () => {
         </ModalBody>
         <ModalActions>
           <div className={classes.submitContainer}>
-            <Button onClick={submitData} disabled={isLoading} >Submit</Button>
+            <Button onClick={submitData} disabled={isLoading || updateThemeLoading} >Submit</Button>
           </div>
         </ModalActions>
       </Modal>
