@@ -65,14 +65,31 @@ export const CreateThemeModal = ({isEdit=false}) => {
     const response=  ThemeData?.data?.theme ||STATE ; //STATE is just for testing
   
       arr.theme.value=response?.theme?.value
+      arr.theme.error=response?.theme?.error
+
      arr.team.value=response?.team?.value
+     arr.team.error=response?.team?.error
+
      arr.brands.value=response?.brands?.value
+     arr.brands.error=response?.brands?.error
+
      arr.category.value=response?.category?.value
+     arr.category.error=response?.category?.error
+
      arr.gender.value=response?.gender?.value
+     arr.gender.error=response?.gender?.error
+
      arr.image.value=response?.image?.value
+     arr.image.error=response?.image?.error
+
      arr.mediaPreview.value=response?.mediaPreview?.value
+     arr.mediaPreview.error=response?.mediaPreview?.error
+
      arr.rules.value=response?.rules?.value
+     arr.rules.error=response?.rules?.error
+
      arr.plans.value=response?.plans?.value
+     arr.plans.error=response?.plans?.error
     
     console.log(arr);
 return arr;
