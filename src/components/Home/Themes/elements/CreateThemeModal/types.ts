@@ -40,28 +40,31 @@ export const INITIAL_STATE = {
   },
 };
 export const STATE = {
+  id:{
+      value:""
+  },
   theme: {
-    value: "SACHIN",
+    value: "",
     error: "",
   },
   team: {
-    value: ["SNUGGLE","FUN"],
+    value: [],
     error: "",
   },
   brands: {
-    value: ["Nike","Adidas"],
+    value: [],
     error: "",
   },
   plans: {
-    value: ["NOTHING","hiphip"],
+    value: [],
     error: "",
   },
   category: {
-    value: ["Coat And Pant","T-Shirt"],
+    value: [],
     error: "",
   },
   gender: {
-    value: "male",
+    value: "",
     error: "",
   },
   image:{
@@ -69,11 +72,11 @@ export const STATE = {
     error:""
   },
   mediaPreview:{
-    value:"https://mui.com/static/images/avatar/1.jpg",
+    value:"",
     error:""
   },
   rules: {
-    value: "Have some fun its getting late",
+    value: "",
     error: "",
   },
 };

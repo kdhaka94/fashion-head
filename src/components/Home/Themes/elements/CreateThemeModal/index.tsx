@@ -157,6 +157,7 @@ return arr;
 
   const handleChangeAutoComplete = (name: any, newValue: any
 ) => {
+  if(isEdit){
   console.log(newValue)
     setState({
       ...state,
@@ -166,6 +167,7 @@ return arr;
         error: "",
       },
     });
+  }
   };
 
   const setError = (field: StateNameType, error: string) => {
@@ -235,26 +237,37 @@ return arr;
       }
     )
   }
+useEffect(() => {
+  if(!isEdit){
+    console.log(isEdit)
+  setState(STATE);
+  }
+  else{
+    console.log(isEdit)
+  setState(getOneTheme());
+  }
+  return ()=>{
+    console.log("unmount");
+    setState(STATE)
+  }
+}, [])
 
   useEffect(() => {
     console.log(state);
-    
- if(!isEdit)
- setState(INITIAL_STATE);
- else
- setState(getOneTheme()!!);
  
+
+
   }, [state])
   return (
     <>
      {!isEdit && <Button
         size="small"
-        onClick={() => openModal("createTheme")}
+        onClick={() => {openModal("createTheme")}}
         disabled={isOpen}
       >
         <AddRounded /> Create A Theme
       </Button>}
-      <Modal open={isOpen} onClose={() =>{ isEdit?closeModal("updateTheme"):closeModal("createTheme");}}>
+      <Modal open={isOpen} onClose={() =>{isEdit?closeModal("updateTheme"):closeModal("createTheme");}}>
         <ModalBody>
           <div className={classes.container}>
             {!isEdit?<Typography variant="h1">Create Theme</Typography>:

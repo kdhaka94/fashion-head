@@ -16,7 +16,7 @@ type ModalListType = keyof typeof modals;
 
 export const modals = {
   addMember: <AddMemberModal />,
-  createTheme: <CreateThemeModal />,
+  createTheme: <CreateThemeModal isEdit={false}/>,
   updateTheme: <CreateThemeModal isEdit={true}  />,
 };
 

@@ -9,5 +9,6 @@ export const API_ENDPOINTS = {
   PLANS: "get_all_plans_mobile",
   UPLOAD_IMAGE:"uploadImages",
   CREATE_THEME:"createTheme",
-  UPDATE_THEME:"updateTheme"
+  UPDATE_THEME:"updateTheme",
+  CREATE_TEAM:"addUserBySuperAdmin"
 };
