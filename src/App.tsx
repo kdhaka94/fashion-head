@@ -41,7 +41,7 @@ function App() {
             }
           />
           <Route
-            path="/theme"
+            path="/theme/:themeId"
             element={
               <PrivateRoute>
                 <SingleThemeReview />

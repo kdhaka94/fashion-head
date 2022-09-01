@@ -1,4 +1,7 @@
 export const INITIAL_STATE = {
+  id:{
+    value:""
+  },
   theme: {
     value: "",
     error: "",

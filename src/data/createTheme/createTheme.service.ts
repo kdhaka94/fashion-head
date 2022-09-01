@@ -8,8 +8,8 @@ export type CreateThemeType = {
     categories: string[];
     brands: string[];
     gender: string;
-    team: string[];
-    plan: string[];
+    team: string;
+    plan: string;
     rules: string;
     minPrice: number;
     maxPrice: number;

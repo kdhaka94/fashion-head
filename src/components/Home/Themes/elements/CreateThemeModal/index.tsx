@@ -5,7 +5,7 @@ import {
   InputLabel,
   Typography,
 } from "@components/common";
-
+import { useParams } from "react-router-dom";
 import { Autocomplete } from "@components/common/Autocomplete";
 import { Modal, ModalActions, ModalBody } from "@components/common/Modal";
 import { useBrandsQuery } from "@data/brands/use-brands.query";
@@ -23,9 +23,10 @@ import { useUploadImageMutation } from "@data/uploadImage/upload-image.mutation"
 import { useCreateThemeMutation } from "@data/createTheme/create-theme.mutation";
 import { useUpdateThemeMutation } from "@data/updateTheme/update-theme.mutation";
 import { validateEmail } from "@utils/helpers";
-
+import { getOneTheme } from "@data/getOneTheme/use-getOneTheme.query";
+import { Themes } from "@data/getOneTheme/types";
 export const CreateThemeModal = ({isEdit=false}) => {
-  const { closeModal, currentModals, openModal } = useHeadStore();
+  const { closeModal, currentModals, openModal ,ThemeInfo} = useHeadStore();
   const isOpen = currentModals.includes("createTheme") || currentModals.includes("updateTheme");
   
   const [state, setState] = React.useState(INITIAL_STATE);
@@ -33,13 +34,12 @@ export const CreateThemeModal = ({isEdit=false}) => {
   const { data: brandsData } = useBrandsQuery();
   const { data: plansData } = usePlansQuery();
   const { data: categoryData } = useCategoryQuery();
-  const { data: ThemeData } = useGetOneThemeQuery();
+  // const {data:ThemeData}=useGetOneThemeQuery({themeId:"630f3a29917f6b1769d9ffb4"});
   const { mutate: uploadImage,isLoading:uploadImageLoading } = useUploadImageMutation();
   const { mutate: createTheme,isLoading } = useCreateThemeMutation();
   const { mutate: updateTheme,isLoading:updateThemeLoading } = useUpdateThemeMutation();
   
 
-  
 
   const [teams, setTeams] = React.useState([{
     title:""
@@ -60,51 +60,55 @@ export const CreateThemeModal = ({isEdit=false}) => {
   }, [brandsData]);
 
   const getOneTheme = React.useCallback(() => {
+    console.log(ThemeInfo)
     const arr={...state};
    
-    const response=  ThemeData?.data?.theme ||STATE ; //STATE is just for testing
-  
-      arr.theme.value=response?.theme?.value
-      arr.theme.error=response?.theme?.error
 
-     arr.team.value=response?.team?.value
-     arr.team.error=response?.team?.error
+    const response=  ThemeInfo?.data[0] ; //STATE is just for testing
+    arr.id.value=response?._id;
+      arr.theme.value=response?.title
+      arr.theme.error=""
 
-     arr.brands.value=response?.brands?.value
-     arr.brands.error=response?.brands?.error
+     arr.team.value[0]=response?.team //doubt in api call it is string but in state it is string[]
+     arr.team.error=""
 
-     arr.category.value=response?.category?.value
-     arr.category.error=response?.category?.error
+     arr.brands.value=response?.brands
+     arr.brands.error=""
 
-     arr.gender.value=response?.gender?.value
-     arr.gender.error=response?.gender?.error
+     arr.category.value=response?.categories
+     arr.category.error=""
 
-     arr.image.value=response?.image?.value
-     arr.image.error=response?.image?.error
+     arr.gender.value=response?.gender
+     arr.gender.error=""
 
-     arr.mediaPreview.value=response?.mediaPreview?.value
-     arr.mediaPreview.error=response?.mediaPreview?.error
+     arr.image.value=response?.images
+     arr.image.error=""
 
-     arr.rules.value=response?.rules?.value
-     arr.rules.error=response?.rules?.error
+     arr.mediaPreview.value=response?.images[0]      //doubt
+     arr.mediaPreview.error=""
 
-     arr.plans.value=response?.plans?.value
-     arr.plans.error=response?.plans?.error
+     arr.rules.value=response?.rules
+     arr.rules.error=""
+
+     arr.plans.value[0]=response.plan   //same dount
+     arr.plans.error=""
     
     console.log(arr);
 return arr;
     
    
-  },[ThemeData]);
+  },[ThemeInfo]);
   React.useEffect(() => {
     setBrands(getBrands()!!);
   }, [getBrands]);
 
- React.useEffect(() => {
-  isEdit?setState(getOneTheme()):console.log("createtheme mode");
+//  React.useEffect( () => {
+
+
+//  console.log(isEdit);
+
  
- 
-  }, []);
+//   }, []);
 
   const getPlans = React.useCallback(() => {
     console.log(plansData);
@@ -177,17 +181,19 @@ return arr;
   const submitData = ()=>{
     console.log(state);
     let data ={
+      id:state.id.value,
       title: state.theme.value, 
       images: state.image.value,
       categories: state.category.value, 
       brands: state.brands.value,
       gender: state.gender.value,
-      team: state.team.value,
-      plan: state.plans.value,
+      team: state.team.value[0],  //doubt
+      plan: state.plans.value[0],  //doubt
       rules: state.rules.value,
       minPrice: 2200,
       maxPrice: 5000
     }
+    console.log(data);
     isEdit?
     updateTheme(
       data,
@@ -232,6 +238,12 @@ return arr;
 
   useEffect(() => {
     console.log(state);
+    
+ if(!isEdit)
+ setState(INITIAL_STATE);
+ else
+ setState(getOneTheme()!!);
+ 
   }, [state])
   return (
     <>
@@ -242,7 +254,7 @@ return arr;
       >
         <AddRounded /> Create A Theme
       </Button>}
-      <Modal open={isOpen} onClose={() =>{ isEdit?closeModal("updateTheme"):closeModal("createTheme")}}>
+      <Modal open={isOpen} onClose={() =>{ isEdit?closeModal("updateTheme"):closeModal("createTheme");}}>
         <ModalBody>
           <div className={classes.container}>
             {!isEdit?<Typography variant="h1">Create Theme</Typography>:

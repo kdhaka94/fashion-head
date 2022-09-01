@@ -5,13 +5,15 @@ import { Themes } from "./types";
 
 const GetOneTheme = new CoreApi("");
 
-export const getOneTheme = async (id:any) => {
+export const getOneTheme = async (id:string) => {
+  console.log("sgdfx",id)
   const { data } = await GetOneTheme.http.get(
     API_ENDPOINTS.GETONETHEME+'/'+id
   );
+  console.log(data)
   return data as Themes;
 };
 
-export const useGetOneThemeQuery = () => {
-  return useQuery("getOneTheme", getOneTheme);
+export const useGetOneThemeQuery = ({themeId}) => {
+  return useQuery(['getOneTheme', themeId], () => getOneTheme(themeId));
 };
