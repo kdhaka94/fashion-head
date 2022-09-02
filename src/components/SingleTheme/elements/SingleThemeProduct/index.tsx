@@ -26,6 +26,7 @@ export const SingleThemeProduct = ({
   
 
 const res=getOneTheme()?.data[0];
+
   return (
     <div className={classes.container}>
       <div className={classes.productInfoContainer}>

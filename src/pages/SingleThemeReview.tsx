@@ -15,7 +15,7 @@ export const SingleThemeReview = () => {
 useEffect(() => {
  setThemeInfo(getOneTheme()!!);
 
-},[ThemeInfo,getOneTheme,setThemeInfo])
+},[ThemeInfo])
 
 
   return <SingleTheme />;

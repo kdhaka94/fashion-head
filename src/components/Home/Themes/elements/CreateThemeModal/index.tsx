@@ -64,7 +64,7 @@ export const CreateThemeModal = ({isEdit=false}) => {
     const arr={...state};
    
 
-    const response=  ThemeInfo?.data[0] ; //STATE is just for testing
+    const response=  ThemeInfo?.data[0] ; 
     arr.id.value=response?._id;
       arr.theme.value=response?.title
       arr.theme.error=""
@@ -157,7 +157,7 @@ return arr;
 
   const handleChangeAutoComplete = (name: any, newValue: any
 ) => {
-  if(isEdit){
+  
   console.log(newValue)
     setState({
       ...state,
@@ -167,7 +167,7 @@ return arr;
         error: "",
       },
     });
-  }
+  
   };
 
   const setError = (field: StateNameType, error: string) => {
@@ -182,16 +182,34 @@ return arr;
 
   const submitData = ()=>{
     console.log(state);
+    const getbrand=()=>{
+      const arr=state.brands.value;
+      let brandsInfo=[];
+        arr.forEach((e)=>{
+            brandsInfo.push(e?.BrandName);
+        })
+        return brandsInfo;
+    }
+    const getcategory=()=>{
+      const arr1=state.category.value;
+    let categoryInfo=[];
+      arr1.forEach((e)=>{
+          categoryInfo.push(e?.title);
+      })
+        return categoryInfo;
+    }
+   
+    
     let data ={
       id:state.id.value,
-      title: state.theme.value, 
-      images: state.image.value,
-      categories: state.category.value, 
-      brands: state.brands.value,
-      gender: state.gender.value,
-      team: state.team.value[0],  //doubt
-      plan: state.plans.value[0],  //doubt
-      rules: state.rules.value,
+      title: state?.theme?.value, 
+      images: state?.image?.value,
+      categories: getcategory(), 
+      brands: getbrand(),
+      gender: state?.gender?.value,
+      team: state?.team?.value[0],  //doubt
+      plan: state?.plans?.value[0],  //doubt
+      rules: state?.rules?.value,
       minPrice: 2200,
       maxPrice: 5000
     }
@@ -222,7 +240,7 @@ return arr;
     )
   }
 
-  const fileChange = (event:any) =>{
+  const fileChange = (event:any) =>{  
     handleChangeAutoComplete('mediaPreview',URL.createObjectURL(event.target.files[0]));
     uploadImage(
       event.target.files[0],
@@ -240,16 +258,12 @@ return arr;
 useEffect(() => {
   if(!isEdit){
     console.log(isEdit)
-  setState(STATE);
   }
   else{
     console.log(isEdit)
   setState(getOneTheme());
   }
-  return ()=>{
-    console.log("unmount");
-    setState(STATE)
-  }
+
 }, [])
 
   useEffect(() => {

@@ -19,7 +19,7 @@ export const Autocomplete = ({ options = [],handleChange, ...rest }: IProps) => 
       disableCloseOnSelect
       limitTags={1}
       options={options}
-      getOptionLabel={(option: any) => option.title}
+      getOptionLabel={(option: any) => option?.title}
       renderOption={(props, option: any, params) => (
         <li {...props}>
           <Checkbox
