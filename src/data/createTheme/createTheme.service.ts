@@ -3,10 +3,11 @@ import { API_ENDPOINTS } from "../../utils/api/endpoints";
 import { CreateTheme } from "./types";
 
 export type CreateThemeType = {
+  id:string;
     title: string; 
     images: string[];
-    categories: string[];
-    brands: string[];
+    categories: any[];
+    brands: any[];
     gender: string;
     team: string;
     plan: string;

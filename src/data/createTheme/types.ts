@@ -7,8 +7,8 @@ export interface CreateTheme {
 
 export interface TeamDataEntity {
   images: string[];
-  categories: Categories[];
-  brands: Brands[];
+  categories: string[];
+  brands: string[];
   title: string;
   gender: string;
   team: string;

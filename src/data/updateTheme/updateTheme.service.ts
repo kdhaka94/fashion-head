@@ -3,13 +3,14 @@ import { API_ENDPOINTS } from "../../utils/api/endpoints";
 import { UpdateTheme } from "./types";
 
 export type UpdateThemeType = {
+  id:string;
     title: string; 
     images: string[];
-    categories: string[];
-    brands: string[];
+    categories: any[];
+    brands: any[];
     gender: string;
-    team: string[];
-    plan: string[];
+    team: string;
+    plan: string;
     rules: string;
     minPrice: number;
     maxPrice: number;

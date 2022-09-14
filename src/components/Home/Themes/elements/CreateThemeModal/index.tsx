@@ -48,6 +48,8 @@ export const CreateThemeModal = ({isEdit=false}) => {
   const [category, setCategory] = React.useState([]);
   const [brands, setBrands] = React.useState([]);
 
+
+  
   const getBrands = React.useCallback(() => {
     console.log(brandsData);
     return brandsData?.data?.brands.map((val)=>{
@@ -69,7 +71,7 @@ export const CreateThemeModal = ({isEdit=false}) => {
       arr.theme.value=response?.title
       arr.theme.error=""
 
-     arr.team.value[0]=response?.team //doubt in api call it is string but in state it is string[]
+     arr.team.value=response?.team //doubt in api call it is string but in state it is string[]
      arr.team.error=""
 
      arr.brands.value=response?.brands
@@ -90,7 +92,7 @@ export const CreateThemeModal = ({isEdit=false}) => {
      arr.rules.value=response?.rules
      arr.rules.error=""
 
-     arr.plans.value[0]=response.plan   //same dount
+     arr.plans.value=response?.plan   //same dount
      arr.plans.error=""
     
     console.log(arr);
@@ -147,9 +149,9 @@ return arr;
     
     setState({
       ...state,
-      [e.currentTarget.name as StateNameType]: {
-        ...state[e.currentTarget.name as StateNameType],
-        value: e.currentTarget.value,
+      [e?.currentTarget?.name as StateNameType]: {
+        ...state[e?.currentTarget?.name as StateNameType],
+        value: e?.currentTarget?.value,
         error: "",
       },
     });
@@ -183,36 +185,62 @@ return arr;
   const submitData = ()=>{
     console.log(state);
     const getbrand=()=>{
-      const arr=state.brands.value;
+      const arr=state?.brands?.value;
+      console.log(arr);
+      
+      
       let brandsInfo=[];
-        arr.forEach((e)=>{
-            brandsInfo.push(e?.BrandName);
+        arr?.forEach((e)=>{
+          if(typeof e==='string')
+          brandsInfo.push(e);
+          else
+            brandsInfo?.push(e?.BrandName);
         })
         return brandsInfo;
-    }
+    };
+   
     const getcategory=()=>{
-      const arr1=state.category.value;
+      const arr1=state?.category?.value ;
+      console.log(arr1);
+      
+      
     let categoryInfo=[];
-      arr1.forEach((e)=>{
+      arr1?.forEach((e)=>{
+        if(typeof e==='string')
+        categoryInfo.push(e);
+        else
           categoryInfo.push(e?.title);
       })
         return categoryInfo;
-    }
-   
+    };
+   const getTeam=()=>{
+    const arr3=state?.team?.value;
+    if(typeof arr3==='string')
+    return arr3;
+    return arr3['title'];
+   }
+   const getPlan=()=>{
+    const arr4=state?.plans?.value;
+    if(typeof arr4==='string')
+    return arr4;
+    return arr4['planName'];
+   }
+  console.log(getbrand(),getcategory(),state.plans.value)
     
     let data ={
-      id:state.id.value,
+   
+      id:state?.id?.value,
       title: state?.theme?.value, 
-      images: state?.image?.value,
+      images: [...state?.image?.value],
       categories: getcategory(), 
       brands: getbrand(),
       gender: state?.gender?.value,
-      team: state?.team?.value[0],  //doubt
-      plan: state?.plans?.value[0],  //doubt
+      team: getTeam(),  //doubt
+      plan: getPlan(),  //doubt
       rules: state?.rules?.value,
       minPrice: 2200,
       maxPrice: 5000
-    }
+    };
     console.log(data);
     isEdit?
     updateTheme(
@@ -238,7 +266,7 @@ return arr;
         },
       }
     )
-  }
+  };
 
   const fileChange = (event:any) =>{  
     handleChangeAutoComplete('mediaPreview',URL.createObjectURL(event.target.files[0]));
@@ -254,29 +282,25 @@ return arr;
         },
       }
     )
-  }
+  };
 useEffect(() => {
   if(!isEdit){
-    console.log(isEdit)
+    
+    console.log(isEdit,state)
   }
   else{
-    console.log(isEdit)
+    console.log(isEdit,state)
   setState(getOneTheme());
   }
 
-}, [])
+}, []);
 
-  useEffect(() => {
-    console.log(state);
- 
-
-
-  }, [state])
+  
   return (
     <>
      {!isEdit && <Button
         size="small"
-        onClick={() => {openModal("createTheme")}}
+        onClick={() => {openModal("createTheme");setState(STATE);}}
         disabled={isOpen}
       >
         <AddRounded /> Create A Theme
@@ -289,10 +313,10 @@ useEffect(() => {
             <div className={classes.flexContainer}>
               <div className={classes.imageContainer}>
                 {
-                  state.mediaPreview.value ?
+                  state?.mediaPreview?.value ?
                   <>
                     <Image
-                      src={state.mediaPreview.value}
+                      src={state?.mediaPreview?.value}
                       width={200}
                       height={200}
                     />
@@ -329,7 +353,7 @@ useEffect(() => {
                   label="Theme Name"
                   name="theme"
                   onChange={handleChange}
-                  value={state.theme.value}
+                  value={state?.theme?.value}
                   error={!!state.theme.error}
                   errorText={state.theme.error}
                   fullWidth
@@ -339,7 +363,7 @@ useEffect(() => {
                   <RadioGroup 
                     defaultValue="female" 
                     name="gender" 
-                    value={state.gender.value}
+                    value={state?.gender?.value}
                     onChange={handleChange} 
                     row
                   >
@@ -359,13 +383,38 @@ useEffect(() => {
                   placeholder="Select Team"
                   label="Team Name"
                   name="team"
+                  isRadio={true}
                   handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('team',newValue)}}
-                  value={state.team.value}
+                  value={state?.team?.value}
                   error={!!state.team.error}
                   errorText={state.team.error}
                   fullWidth
                   options={TeamsDefaultData}
                 />
+                  {/* <InputLabel title="Team Name" />
+                  <RadioGroup 
+                    defaultValue="A" 
+                    name="team" 
+                    value={state?.team?.value}
+                    onChange={handleChange} 
+                    row
+                  >
+                    <FormControlLabel
+                      value="A"
+                      control={<Radio />}
+                      label="A"
+                    />
+                    <FormControlLabel
+                      value="B"
+                      control={<Radio />}
+                      label="B"
+                    />
+                    <FormControlLabel
+                      value="C"
+                      control={<Radio />}
+                      label="C"
+                    />
+                  </RadioGroup> */}
               </div>
             </div>
             <div className={`${classes.flexContainer} ${classes["gap-20"]}`}>
@@ -373,8 +422,9 @@ useEffect(() => {
                 placeholder="Search Brand"
                 label="Brand(Optional)"
                 name="brands"
+                isRadio={false}
                 handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('brands',newValue)}}
-                value={state.brands.value}
+                value={state?.brands?.value}
                 error={!!state.brands.error}
                 errorText={state.brands.error}
 
@@ -385,20 +435,46 @@ useEffect(() => {
                 placeholder="Plan"
                 label="Choose Plan"
                 name="plans"
+                isRadio={true}
                 handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('plans',newValue)}}
-                value={state.plans.value}
+                value={state?.plans?.value}
                 error={!!state.plans.error}
                 errorText={state.plans.error}
                 fullWidth
                 options={plans}
               />
+               {/* <InputLabel title="Choose Plan" />
+                  <RadioGroup 
+                    defaultValue="plan1" 
+                    name="plans" 
+                    value={state?.plans?.value}
+                    onChange={handleChange} 
+                    row
+                  >
+                    <FormControlLabel
+                      value="plan1"
+                      control={<Radio />}
+                      label="plan1"
+                    />
+                    <FormControlLabel
+                      value="plan2"
+                      control={<Radio />}
+                      label="plan2"
+                    />
+                    <FormControlLabel
+                      value="plan3"
+                      control={<Radio />}
+                      label="plan3"
+                    />
+                  </RadioGroup> */}
             </div>
             <Autocomplete
               placeholder="Category(Optional)"
               label="Search Category"
+              isRadio={false}
               name="category"
               handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('category',newValue)}}
-              value={state.category.value}
+              value={state?.category?.value}
               error={!!state.category.error}
               errorText={state.category.error}
               fullWidth
@@ -406,7 +482,7 @@ useEffect(() => {
             />
             <div>
               Rules
-              <Editor value={state.rules.value} handleChange={(event)=>{handleChangeAutoComplete('rules',event)}} />
+              <Editor value={state?.rules?.value} handleChange={(event)=>{handleChangeAutoComplete('rules',event)}} />
             </div>
           </div>
 

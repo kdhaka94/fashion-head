@@ -24,6 +24,7 @@ export const ThemesContainer = () => {
       >
         {data?.data?.slice(0, showMore ? Infinity : RANGE).map((theme) => (
           <Theme
+          key={theme.theme._id}
             theme={theme}
             layoutId={theme.theme._id}
             animate={{ opacity: 1 }}

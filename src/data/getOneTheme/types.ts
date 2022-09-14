@@ -8,7 +8,7 @@ export interface Themes {
 export interface TeamDataEntity {
   images: string[];
   categories: string[];
-  brands: Brands[];
+  brands: string[];
   title: string;
   gender: string;
   team: string;

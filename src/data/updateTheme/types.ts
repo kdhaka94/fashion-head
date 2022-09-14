@@ -1,7 +1,7 @@
 export interface UpdateTheme {
     status: number;
     message: string;
-    data: TeamDataEntity | null;
+    
   }
   
   
