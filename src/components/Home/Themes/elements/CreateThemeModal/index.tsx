@@ -17,7 +17,7 @@ import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { useHeadStore } from "@utils/zustand/store";
 import React, { useEffect } from "react";
 import classes from "./styles.module.css";
-import { dataTemplate, INITIAL_STATE,STATE, StateNameType, TeamsDefaultData } from "./types";
+import { dataTemplate, INITIAL_STATE, StateNameType, TeamsDefaultData } from "./types";
 import Editor from "@components/common/TextEditor";
 import { useUploadImageMutation } from "@data/uploadImage/upload-image.mutation";
 import { useCreateThemeMutation } from "@data/createTheme/create-theme.mutation";
@@ -104,13 +104,7 @@ return arr;
     setBrands(getBrands()!!);
   }, [getBrands]);
 
-//  React.useEffect( () => {
 
-
-//  console.log(isEdit);
-
- 
-//   }, []);
 
   const getPlans = React.useCallback(() => {
     console.log(plansData);
@@ -136,7 +130,7 @@ return arr;
         key:val._id
       }
     })
-  }, [brandsData]);
+  }, [categoryData]);
 
   React.useEffect(() => {
     setCategory(getCategory()!!);
@@ -231,7 +225,7 @@ return arr;
    
       id:state?.id?.value,
       title: state?.theme?.value, 
-      images: [...state?.image?.value],
+      images: state?.image?.value,
       categories: getcategory(), 
       brands: getbrand(),
       gender: state?.gender?.value,
@@ -269,11 +263,13 @@ return arr;
   };
 
   const fileChange = (event:any) =>{  
+    console.log(event.target.files[0])
     handleChangeAutoComplete('mediaPreview',URL.createObjectURL(event.target.files[0]));
     uploadImage(
       event.target.files[0],
       {
         onSuccess: (data) => {
+          console.log(data)
           handleChangeAutoComplete('image',data.data);
           handleChangeAutoComplete('mediaPreview',URL.createObjectURL(event.target.files[0]));
         },
@@ -285,7 +281,7 @@ return arr;
   };
 useEffect(() => {
   if(!isEdit){
-    
+    setState(INITIAL_STATE);
     console.log(isEdit,state)
   }
   else{
@@ -300,12 +296,12 @@ useEffect(() => {
     <>
      {!isEdit && <Button
         size="small"
-        onClick={() => {openModal("createTheme");setState(STATE);}}
+        onClick={() => {openModal("createTheme");}}
         disabled={isOpen}
       >
         <AddRounded /> Create A Theme
       </Button>}
-      <Modal open={isOpen} onClose={() =>{isEdit?closeModal("updateTheme"):closeModal("createTheme");}}>
+      <Modal open={isOpen} onClose={() =>{ isEdit?closeModal("updateTheme"):closeModal("createTheme");}}>
         <ModalBody>
           <div className={classes.container}>
             {!isEdit?<Typography variant="h1">Create Theme</Typography>:

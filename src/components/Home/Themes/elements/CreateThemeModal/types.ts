@@ -39,47 +39,7 @@ export const INITIAL_STATE = {
     error: "",
   },
 };
-export const STATE = {
-  id:{
-    value:""
-  },
-  theme: {
-    value: "",
-    error: "",
-  },
-  team: {
-    value: "",
-    error: "",
-  },
-  brands: {
-    value: [],
-    error: "",
-  },
-  plans: {
-    value: "",
-    error: "",
-  },
-  category: {
-    value: [],
-    error: "",
-  },
-  gender: {
-    value: "",
-    error: "",
-  },
-  image:{
-    value:[],
-    error:""
-  },
-  mediaPreview:{
-    value:"",
-    error:""
-  },
-  rules: {
-    value: "",
-    error: "",
-  },
-};
+
 
 
 
