@@ -207,7 +207,7 @@ return arr;
   const handleChangeAutoComplete = (name: any, newValue: any
 ) => {
   
-  console.log(newValue,"gyygjgjgjgy")
+  console.log(newValue)
   isEdit?
     setState({
       ...state,
@@ -340,22 +340,25 @@ return arr;
     uploadImage(
       event.target.files[0],
       {
-        onSuccess: (data) => {
-          console.log(data)
+        onSuccess: async(data) => {
+          console.log(data.data)
+          // handleChangeAutoComplete('mediaPreview',URL.createObjectURL(event.target.files[0]));
           handleChangeAutoComplete('image',data.data);
           handleChangeAutoComplete('mediaPreview',URL.createObjectURL(event.target.files[0]));
         },
         onError: (err: any) => {
 
         },
+        
       }
     )
+
   };
 
 
 useEffect(() => {
-console.log(state1)
-}, [state1]);
+console.log(state)
+}, [state]);
 
 
 
@@ -377,10 +380,10 @@ console.log(state1)
             <div className={classes.flexContainer}>
               <div className={classes.imageContainer}>
                 {
-                  state?.mediaPreview?.value ?
+                  (isEdit?(state?.mediaPreview?.value):(state1?.mediaPreview?.value)) ?
                   <>
                     <Image
-                      src={state?.mediaPreview?.value}
+                      src={(isEdit?(state?.mediaPreview?.value):(state1?.mediaPreview?.value))}
                       width={200}
                       height={200}
                     />
