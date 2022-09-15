@@ -26,10 +26,50 @@ import { validateEmail } from "@utils/helpers";
 import { getOneTheme } from "@data/getOneTheme/use-getOneTheme.query";
 import { Themes } from "@data/getOneTheme/types";
 export const CreateThemeModal = ({isEdit=false}) => {
+
   const { closeModal, currentModals, openModal ,ThemeInfo} = useHeadStore();
   const isOpen = currentModals.includes("createTheme") || currentModals.includes("updateTheme");
   
   const [state, setState] = React.useState(INITIAL_STATE);
+  const [state1, setState1] = React.useState({ id:{
+    value:""
+  },
+  theme: {
+    value: "",
+    error: "",
+  },
+  team: {
+    value: "",
+    error: "",
+  },
+  brands: {
+    value: [],
+    error: "",
+  },
+  plans: {
+    value: "",
+    error: "",
+  },
+  category: {
+    value: [],
+    error: "",
+  },
+  gender: {
+    value: "",
+    error: "",
+  },
+  image:{
+    value:[],
+    error:""
+  },
+  mediaPreview:{
+    value:"",
+    error:""
+  },
+  rules: {
+    value: "",
+    error: "",
+  }});
 
   const { data: brandsData } = useBrandsQuery();
   const { data: plansData } = usePlansQuery();
@@ -62,10 +102,10 @@ export const CreateThemeModal = ({isEdit=false}) => {
   }, [brandsData]);
 
   const getOneTheme = React.useCallback(() => {
-    console.log(ThemeInfo)
+    console.log(ThemeInfo,"dgdrg")
     const arr={...state};
    
-
+    console.log(state,state1);
     const response=  ThemeInfo?.data[0] ; 
     arr.id.value=response?._id;
       arr.theme.value=response?.title
@@ -100,8 +140,13 @@ return arr;
     
    
   },[ThemeInfo]);
+  useEffect(() => {
+   if(isEdit) 
+    setState(getOneTheme()!!);
+    console.log("again",isEdit)
+  }, []);
   React.useEffect(() => {
-    setBrands(getBrands()!!);
+    setBrands(getBrands());
   }, [getBrands]);
 
 
@@ -118,7 +163,7 @@ return arr;
   }, [plansData]);
 
   React.useEffect(() => {
-    setPlans(getPlans()!!);
+    setPlans(getPlans());
   }, [getPlans]);
 
   const getCategory = React.useCallback(() => {
@@ -133,32 +178,50 @@ return arr;
   }, [categoryData]);
 
   React.useEffect(() => {
-    setCategory(getCategory()!!);
+    setCategory(getCategory());
   }, [getCategory]);
-
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    
-    setState({
+    console.log("handlechange")
+   isEdit? setState({
       ...state,
       [e?.currentTarget?.name as StateNameType]: {
         ...state[e?.currentTarget?.name as StateNameType],
         value: e?.currentTarget?.value,
         error: "",
       },
-    });
+    }):
+    setState1({
+      ...state1,
+      [e?.currentTarget?.name as StateNameType]: {
+        ...state1[e?.currentTarget?.name as StateNameType],
+        value: e?.currentTarget?.value,
+        error: "",
+      },
+    })
+    ;
   };
 
   const handleChangeAutoComplete = (name: any, newValue: any
 ) => {
   
-  console.log(newValue)
+  console.log(newValue,"gyygjgjgjgy")
+  isEdit?
     setState({
       ...state,
       [name]: {
         ...state[name],
+        value: newValue,
+        error: "",
+      },
+    })
+    :
+    setState1({
+      ...state1,
+      [name]: {
+        ...state1[name],
         value: newValue,
         error: "",
       },
@@ -167,10 +230,19 @@ return arr;
   };
 
   const setError = (field: StateNameType, error: string) => {
+    isEdit?
     setState({
       ...state,
       [field]: {
         ...state[field],
+        error,
+      },
+    })
+    :
+    setState1({
+      ...state1,
+      [field]: {
+        ...state1[field],
         error,
       },
     });
@@ -179,7 +251,7 @@ return arr;
   const submitData = ()=>{
     console.log(state);
     const getbrand=()=>{
-      const arr=state?.brands?.value;
+      const arr=(isEdit?(state?.brands?.value):(state1?.brands?.value));
       console.log(arr);
       
       
@@ -194,7 +266,7 @@ return arr;
     };
    
     const getcategory=()=>{
-      const arr1=state?.category?.value ;
+      const arr1=(isEdit?(state?.category?.value):(state1?.category?.value)) ;
       console.log(arr1);
       
       
@@ -208,13 +280,13 @@ return arr;
         return categoryInfo;
     };
    const getTeam=()=>{
-    const arr3=state?.team?.value;
+    const arr3=(isEdit?(state?.team?.value):(state1?.team?.value));
     if(typeof arr3==='string')
     return arr3;
     return arr3['title'];
    }
    const getPlan=()=>{
-    const arr4=state?.plans?.value;
+    const arr4=(isEdit?(state?.plans?.value):(state1?.plans?.value));
     if(typeof arr4==='string')
     return arr4;
     return arr4['planName'];
@@ -223,15 +295,15 @@ return arr;
     
     let data ={
    
-      id:state?.id?.value,
-      title: state?.theme?.value, 
-      images: state?.image?.value,
+      id:(isEdit?(state?.id?.value):(state1?.id?.value)),
+      title: (isEdit?(state?.theme?.value):(state1?.theme?.value)), 
+      images: (isEdit?(state?.image?.value):(state1?.image?.value)),
       categories: getcategory(), 
       brands: getbrand(),
-      gender: state?.gender?.value,
+      gender: (isEdit?(state?.gender?.value):(state1?.gender?.value)),
       team: getTeam(),  //doubt
       plan: getPlan(),  //doubt
-      rules: state?.rules?.value,
+      rules: (isEdit?(state?.rules?.value):(state1?.rules?.value)),
       minPrice: 2200,
       maxPrice: 5000
     };
@@ -279,29 +351,25 @@ return arr;
       }
     )
   };
-useEffect(() => {
-  if(!isEdit){
-    setState(INITIAL_STATE);
-    console.log(isEdit,state)
-  }
-  else{
-    console.log(isEdit,state)
-  setState(getOneTheme());
-  }
 
-}, []);
+
+useEffect(() => {
+console.log(state1)
+}, [state1]);
+
+
 
   
   return (
     <>
-     {!isEdit && <Button
-        size="small"
-        onClick={() => {openModal("createTheme");}}
-        disabled={isOpen}
-      >
-        <AddRounded /> Create A Theme
-      </Button>}
-      <Modal open={isOpen} onClose={() =>{ isEdit?closeModal("updateTheme"):closeModal("createTheme");}}>
+    {/* {!isEdit && <Button
+      size="small"
+      onClick={() => {openModal("createTheme");}}
+      disabled={isOpen}
+    >
+      <AddRounded /> Create A Theme
+    </Button>} */}
+      <Modal open={isOpen} onClose={() =>{isEdit?closeModal("updateTheme"):closeModal("createTheme");}}>
         <ModalBody>
           <div className={classes.container}>
             {!isEdit?<Typography variant="h1">Create Theme</Typography>:
@@ -349,9 +417,9 @@ useEffect(() => {
                   label="Theme Name"
                   name="theme"
                   onChange={handleChange}
-                  value={state?.theme?.value}
-                  error={!!state.theme.error}
-                  errorText={state.theme.error}
+                  value={isEdit?(state?.theme?.value):(state1?.theme?.value)}
+                  error={!!(isEdit?(state?.theme?.error):(state1?.theme?.error))}
+                  errorText={(isEdit?(state?.theme?.error):(state1?.theme?.error))}
                   fullWidth
                 />
                 <div>
@@ -359,7 +427,7 @@ useEffect(() => {
                   <RadioGroup 
                     defaultValue="female" 
                     name="gender" 
-                    value={state?.gender?.value}
+                    value={(isEdit?(state?.gender?.value):(state1?.gender?.value))}
                     onChange={handleChange} 
                     row
                   >
@@ -381,9 +449,9 @@ useEffect(() => {
                   name="team"
                   isRadio={true}
                   handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('team',newValue)}}
-                  value={state?.team?.value}
-                  error={!!state.team.error}
-                  errorText={state.team.error}
+                  value={(isEdit?(state?.team?.value):(state1?.team?.value))}
+                  error={!!(isEdit?(state?.team?.error):(state1?.team?.error))}
+                  errorText={(isEdit?(state?.team?.error):(state1?.team?.error))}
                   fullWidth
                   options={TeamsDefaultData}
                 />
@@ -420,9 +488,9 @@ useEffect(() => {
                 name="brands"
                 isRadio={false}
                 handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('brands',newValue)}}
-                value={state?.brands?.value}
-                error={!!state.brands.error}
-                errorText={state.brands.error}
+                value={(isEdit?(state?.brands?.value):(state1?.brands?.value))}
+                error={!!(isEdit?(state?.brands?.error):(state1?.brands?.error))}
+                errorText={(isEdit?(state?.brands?.error):(state1?.brands?.error))}
 
                 fullWidth
                 options={brands}
@@ -433,9 +501,9 @@ useEffect(() => {
                 name="plans"
                 isRadio={true}
                 handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('plans',newValue)}}
-                value={state?.plans?.value}
-                error={!!state.plans.error}
-                errorText={state.plans.error}
+                value={(isEdit?(state?.plans?.value):(state1?.plans?.value))}
+                error={!!(isEdit?(state?.plans?.error):(state1?.plans?.error))}
+                errorText={(isEdit?(state?.plans?.error):(state1?.plans?.error))}
                 fullWidth
                 options={plans}
               />
@@ -470,15 +538,15 @@ useEffect(() => {
               isRadio={false}
               name="category"
               handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('category',newValue)}}
-              value={state?.category?.value}
-              error={!!state.category.error}
-              errorText={state.category.error}
+              value={(isEdit?(state?.category?.value):(state1?.category?.value))}
+              error={!!(isEdit?(state?.category?.error):(state1?.category?.error))}
+              errorText={(isEdit?(state?.category?.error):(state1?.category?.error))}
               fullWidth
               options={category}
             />
             <div>
               Rules
-              <Editor value={state?.rules?.value} handleChange={(event)=>{handleChangeAutoComplete('rules',event)}} />
+              <Editor value={(isEdit?(state?.rules?.value):(state1?.rules?.value))} handleChange={(event)=>{handleChangeAutoComplete('rules',event)}} />
             </div>
           </div>
 
