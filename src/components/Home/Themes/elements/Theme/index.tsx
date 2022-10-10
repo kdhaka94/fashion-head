@@ -1,5 +1,6 @@
 import { Image, Typography } from "@components/common";
 import { ThemeDataEntity } from "@data/themes/types";
+import { useNavigate } from "react-router-dom";
 import { MotionProps, motion } from "framer-motion";
 import React from "react";
 import classes from "./styles.module.css";
@@ -8,8 +9,9 @@ type IProps = {
 } & MotionProps;
 
 export const Theme = ({ theme, ...rest }: IProps) => {
+  const navigate=useNavigate();
   return (
-    <motion.div className={classes.container} {...rest}>
+    <motion.div className={classes.container} {...rest} onClick={()=>{navigate(`/theme/${theme.theme._id}`)}}>
       <Image
         width={88}
         height={88}

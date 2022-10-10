@@ -11,7 +11,8 @@ import { useHeadStore } from "@utils/zustand/store";
 import React from "react";
 import * as yup from "yup";
 import classes from "./styles.module.css";
-
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 export type LoginFormValuesType = {
   email: FormValues;
   password: FormValues;
@@ -36,6 +37,7 @@ const loginFormSchema = yup.object({
 });
 
 export const LoginForm = () => {
+  const navigate=useNavigate();
   const [showPass, setShowPass] = React.useState(false);
   const { mutate: login, isLoading } = useLoginMutation();
   const [state, setState] = React.useState(INITIAL_STATE);
@@ -75,8 +77,14 @@ export const LoginForm = () => {
         {
           onSuccess: (data) => {
             console.log({ data });
+            
+    Cookies.set(
+      "auth_token",
+      data.data.token
+    );
             if (data.data) setUser(data.data);
             else setError("email", data.message);
+            navigate('/');
           },
           onError: (err: any) => {
             setError("email", err.response.data.message);

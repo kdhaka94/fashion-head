@@ -5,9 +5,11 @@ import {
   InputLabel,
   Typography,
 } from "@components/common";
+import { useParams } from "react-router-dom";
 import { Autocomplete } from "@components/common/Autocomplete";
 import { Modal, ModalActions, ModalBody } from "@components/common/Modal";
 import { useBrandsQuery } from "@data/brands/use-brands.query";
+import { useGetOneThemeQuery } from "@data/getOneTheme/use-getOneTheme.query";
 import { useCategoryQuery } from "@data/category/use-category.query";
 import { usePlansQuery } from "@data/plans/use-plans.query";
 import { AddRounded } from "@mui/icons-material";
@@ -19,18 +21,64 @@ import { dataTemplate, INITIAL_STATE, StateNameType, TeamsDefaultData } from "./
 import Editor from "@components/common/TextEditor";
 import { useUploadImageMutation } from "@data/uploadImage/upload-image.mutation";
 import { useCreateThemeMutation } from "@data/createTheme/create-theme.mutation";
+import { useUpdateThemeMutation } from "@data/updateTheme/update-theme.mutation";
+import { validateEmail } from "@utils/helpers";
+import { getOneTheme } from "@data/getOneTheme/use-getOneTheme.query";
+import { Themes } from "@data/getOneTheme/types";
+export const CreateThemeModal = ({isEdit=false}) => {
 
-export const CreateThemeModal = () => {
-  const { closeModal, currentModals, openModal } = useHeadStore();
-  const isOpen = currentModals.includes("createTheme");
+  const { closeModal, currentModals, openModal ,ThemeInfo} = useHeadStore();
+  const isOpen = currentModals.includes("createTheme") || currentModals.includes("updateTheme");
+  
   const [state, setState] = React.useState(INITIAL_STATE);
+  const [state1, setState1] = React.useState({ id:{
+    value:""
+  },
+  theme: {
+    value: "",
+    error: "",
+  },
+  team: {
+    value: "",
+    error: "",
+  },
+  brands: {
+    value: [],
+    error: "",
+  },
+  plans: {
+    value: "",
+    error: "",
+  },
+  category: {
+    value: [],
+    error: "",
+  },
+  gender: {
+    value: "",
+    error: "",
+  },
+  image:{
+    value:[],
+    error:""
+  },
+  mediaPreview:{
+    value:"",
+    error:""
+  },
+  rules: {
+    value: "",
+    error: "",
+  }});
 
   const { data: brandsData } = useBrandsQuery();
   const { data: plansData } = usePlansQuery();
   const { data: categoryData } = useCategoryQuery();
+  // const {data:ThemeData}=useGetOneThemeQuery({themeId:"630f3a29917f6b1769d9ffb4"});
   const { mutate: uploadImage,isLoading:uploadImageLoading } = useUploadImageMutation();
   const { mutate: createTheme,isLoading } = useCreateThemeMutation();
-
+  const { mutate: updateTheme,isLoading:updateThemeLoading } = useUpdateThemeMutation();
+  
 
 
   const [teams, setTeams] = React.useState([{
@@ -40,6 +88,8 @@ export const CreateThemeModal = () => {
   const [category, setCategory] = React.useState([]);
   const [brands, setBrands] = React.useState([]);
 
+
+  
   const getBrands = React.useCallback(() => {
     console.log(brandsData);
     return brandsData?.data?.brands.map((val)=>{
@@ -51,9 +101,55 @@ export const CreateThemeModal = () => {
     })
   }, [brandsData]);
 
+  const getOneTheme = React.useCallback(() => {
+    console.log(ThemeInfo,"dgdrg")
+    const arr={...state};
+   
+    console.log(state,state1);
+    const response=  ThemeInfo?.data[0] ; 
+    arr.id.value=response?._id;
+      arr.theme.value=response?.title
+      arr.theme.error=""
+
+     arr.team.value=response?.team //doubt in api call it is string but in state it is string[]
+     arr.team.error=""
+
+     arr.brands.value=response?.brands
+     arr.brands.error=""
+
+     arr.category.value=response?.categories
+     arr.category.error=""
+
+     arr.gender.value=response?.gender
+     arr.gender.error=""
+
+     arr.image.value=response?.images
+     arr.image.error=""
+
+     arr.mediaPreview.value=response?.images[0]      //doubt
+     arr.mediaPreview.error=""
+
+     arr.rules.value=response?.rules
+     arr.rules.error=""
+
+     arr.plans.value=response?.plan   //same dount
+     arr.plans.error=""
+    
+    console.log(arr);
+return arr;
+    
+   
+  },[ThemeInfo]);
+  useEffect(() => {
+   if(isEdit) 
+    setState(getOneTheme()!!);
+    console.log("again",isEdit)
+  }, []);
   React.useEffect(() => {
-    setBrands(getBrands()!!);
+    setBrands(getBrands());
   }, [getBrands]);
+
+
 
   const getPlans = React.useCallback(() => {
     console.log(plansData);
@@ -67,7 +163,7 @@ export const CreateThemeModal = () => {
   }, [plansData]);
 
   React.useEffect(() => {
-    setPlans(getPlans()!!);
+    setPlans(getPlans());
   }, [getPlans]);
 
   const getCategory = React.useCallback(() => {
@@ -79,30 +175,40 @@ export const CreateThemeModal = () => {
         key:val._id
       }
     })
-  }, [brandsData]);
+  }, [categoryData]);
 
   React.useEffect(() => {
-    setCategory(getCategory()!!);
+    setCategory(getCategory());
   }, [getCategory]);
-
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    
-    setState({
+    console.log("handlechange")
+   isEdit? setState({
       ...state,
-      [e.currentTarget.name as StateNameType]: {
-        ...state[e.currentTarget.name as StateNameType],
-        value: e.currentTarget.value,
+      [e?.currentTarget?.name as StateNameType]: {
+        ...state[e?.currentTarget?.name as StateNameType],
+        value: e?.currentTarget?.value,
         error: "",
       },
-    });
+    }):
+    setState1({
+      ...state1,
+      [e?.currentTarget?.name as StateNameType]: {
+        ...state1[e?.currentTarget?.name as StateNameType],
+        value: e?.currentTarget?.value,
+        error: "",
+      },
+    })
+    ;
   };
 
   const handleChangeAutoComplete = (name: any, newValue: any
 ) => {
+  
   console.log(newValue)
+  isEdit?
     setState({
       ...state,
       [name]: {
@@ -110,14 +216,33 @@ export const CreateThemeModal = () => {
         value: newValue,
         error: "",
       },
+    })
+    :
+    setState1({
+      ...state1,
+      [name]: {
+        ...state1[name],
+        value: newValue,
+        error: "",
+      },
     });
+  
   };
 
   const setError = (field: StateNameType, error: string) => {
+    isEdit?
     setState({
       ...state,
       [field]: {
         ...state[field],
+        error,
+      },
+    })
+    :
+    setState1({
+      ...state1,
+      [field]: {
+        ...state1[field],
         error,
       },
     });
@@ -125,18 +250,77 @@ export const CreateThemeModal = () => {
 
   const submitData = ()=>{
     console.log(state);
+    const getbrand=()=>{
+      const arr=(isEdit?(state?.brands?.value):(state1?.brands?.value));
+      console.log(arr);
+      
+      
+      let brandsInfo=[];
+        arr?.forEach((e)=>{
+          if(typeof e==='string')
+          brandsInfo.push(e);
+          else
+            brandsInfo?.push(e?.BrandName);
+        })
+        return brandsInfo;
+    };
+   
+    const getcategory=()=>{
+      const arr1=(isEdit?(state?.category?.value):(state1?.category?.value)) ;
+      console.log(arr1);
+      
+      
+    let categoryInfo=[];
+      arr1?.forEach((e)=>{
+        if(typeof e==='string')
+        categoryInfo.push(e);
+        else
+          categoryInfo.push(e?.title);
+      })
+        return categoryInfo;
+    };
+   const getTeam=()=>{
+    const arr3=(isEdit?(state?.team?.value):(state1?.team?.value));
+    if(typeof arr3==='string')
+    return arr3;
+    return arr3['title'];
+   }
+   const getPlan=()=>{
+    const arr4=(isEdit?(state?.plans?.value):(state1?.plans?.value));
+    if(typeof arr4==='string')
+    return arr4;
+    return arr4['planName'];
+   }
+  console.log(getbrand(),getcategory(),state.plans.value)
+    
     let data ={
-      title: state.theme.value, 
-      images: state.image.value,
-      categories: state.category.value, 
-      brands: state.brands.value,
-      gender: state.gender.value,
-      team: state.team.value,
-      plan: state.plans.value,
-      rules: state.rules.value,
+   
+      id:(isEdit?(state?.id?.value):(state1?.id?.value)),
+      title: (isEdit?(state?.theme?.value):(state1?.theme?.value)), 
+      images: (isEdit?(state?.image?.value):(state1?.image?.value)),
+      categories: getcategory(), 
+      brands: getbrand(),
+      gender: (isEdit?(state?.gender?.value):(state1?.gender?.value)),
+      team: getTeam(),  //doubt
+      plan: getPlan(),  //doubt
+      rules: (isEdit?(state?.rules?.value):(state1?.rules?.value)),
       minPrice: 2200,
       maxPrice: 5000
-    }
+    };
+    console.log(data);
+    isEdit?
+    updateTheme(
+      data,
+      {
+        onSuccess: (data) => {
+          console.log({ data });
+        },
+        onError: (err: any) => {
+
+        },
+      }
+    )
+    :
     createTheme(
       data,
       {
@@ -148,47 +332,58 @@ export const CreateThemeModal = () => {
         },
       }
     )
-  }
+  };
 
-  const fileChange = (event:any) =>{
+  const fileChange = (event:any) =>{  
+    console.log(event.target.files[0])
     handleChangeAutoComplete('mediaPreview',URL.createObjectURL(event.target.files[0]));
     uploadImage(
       event.target.files[0],
       {
-        onSuccess: (data) => {
+        onSuccess: async(data) => {
+          console.log(data.data)
+          // handleChangeAutoComplete('mediaPreview',URL.createObjectURL(event.target.files[0]));
           handleChangeAutoComplete('image',data.data);
           handleChangeAutoComplete('mediaPreview',URL.createObjectURL(event.target.files[0]));
         },
         onError: (err: any) => {
 
         },
+        
       }
     )
-  }
 
-  useEffect(() => {
-    console.log(state);
-  }, [state])
+  };
+
+
+useEffect(() => {
+console.log(state)
+}, [state]);
+
+
+
+  
   return (
     <>
-      <Button
-        size="small"
-        onClick={() => openModal("createTheme")}
-        disabled={isOpen}
-      >
-        <AddRounded /> Create A Theme
-      </Button>
-      <Modal open={isOpen} onClose={() => closeModal("createTheme")}>
+    {/* {!isEdit && <Button
+      size="small"
+      onClick={() => {openModal("createTheme");}}
+      disabled={isOpen}
+    >
+      <AddRounded /> Create A Theme
+    </Button>} */}
+      <Modal open={isOpen} onClose={() =>{isEdit?closeModal("updateTheme"):closeModal("createTheme");}}>
         <ModalBody>
           <div className={classes.container}>
-            <Typography variant="h1">Create Theme</Typography>
+            {!isEdit?<Typography variant="h1">Create Theme</Typography>:
+            <Typography variant="h1">Update Theme</Typography>}
             <div className={classes.flexContainer}>
               <div className={classes.imageContainer}>
                 {
-                  state.mediaPreview.value ?
+                  (isEdit?(state?.mediaPreview?.value):(state1?.mediaPreview?.value)) ?
                   <>
                     <Image
-                      src={state.mediaPreview.value}
+                      src={(isEdit?(state?.mediaPreview?.value):(state1?.mediaPreview?.value))}
                       width={200}
                       height={200}
                     />
@@ -225,17 +420,17 @@ export const CreateThemeModal = () => {
                   label="Theme Name"
                   name="theme"
                   onChange={handleChange}
-                  value={state.theme.value}
-                  error={!!state.theme.error}
-                  errorText={state.theme.error}
+                  value={isEdit?(state?.theme?.value):(state1?.theme?.value)}
+                  error={!!(isEdit?(state?.theme?.error):(state1?.theme?.error))}
+                  errorText={(isEdit?(state?.theme?.error):(state1?.theme?.error))}
                   fullWidth
                 />
                 <div>
                   <InputLabel title="Gender" />
                   <RadioGroup 
-                    defaultValue="male" 
+                    defaultValue="female" 
                     name="gender" 
-                    value={state.gender.value}
+                    value={(isEdit?(state?.gender?.value):(state1?.gender?.value))}
                     onChange={handleChange} 
                     row
                   >
@@ -255,13 +450,38 @@ export const CreateThemeModal = () => {
                   placeholder="Select Team"
                   label="Team Name"
                   name="team"
+                  isRadio={true}
                   handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('team',newValue)}}
-                  value={state.team.value}
-                  error={!!state.team.error}
-                  errorText={state.team.error}
+                  value={(isEdit?(state?.team?.value):(state1?.team?.value))}
+                  error={!!(isEdit?(state?.team?.error):(state1?.team?.error))}
+                  errorText={(isEdit?(state?.team?.error):(state1?.team?.error))}
                   fullWidth
                   options={TeamsDefaultData}
                 />
+                  {/* <InputLabel title="Team Name" />
+                  <RadioGroup 
+                    defaultValue="A" 
+                    name="team" 
+                    value={state?.team?.value}
+                    onChange={handleChange} 
+                    row
+                  >
+                    <FormControlLabel
+                      value="A"
+                      control={<Radio />}
+                      label="A"
+                    />
+                    <FormControlLabel
+                      value="B"
+                      control={<Radio />}
+                      label="B"
+                    />
+                    <FormControlLabel
+                      value="C"
+                      control={<Radio />}
+                      label="C"
+                    />
+                  </RadioGroup> */}
               </div>
             </div>
             <div className={`${classes.flexContainer} ${classes["gap-20"]}`}>
@@ -269,10 +489,11 @@ export const CreateThemeModal = () => {
                 placeholder="Search Brand"
                 label="Brand(Optional)"
                 name="brands"
+                isRadio={false}
                 handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('brands',newValue)}}
-                value={state.brands.value}
-                error={!!state.brands.error}
-                errorText={state.brands.error}
+                value={(isEdit?(state?.brands?.value):(state1?.brands?.value))}
+                error={!!(isEdit?(state?.brands?.error):(state1?.brands?.error))}
+                errorText={(isEdit?(state?.brands?.error):(state1?.brands?.error))}
 
                 fullWidth
                 options={brands}
@@ -281,35 +502,61 @@ export const CreateThemeModal = () => {
                 placeholder="Plan"
                 label="Choose Plan"
                 name="plans"
+                isRadio={true}
                 handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('plans',newValue)}}
-                value={state.plans.value}
-                error={!!state.plans.error}
-                errorText={state.plans.error}
+                value={(isEdit?(state?.plans?.value):(state1?.plans?.value))}
+                error={!!(isEdit?(state?.plans?.error):(state1?.plans?.error))}
+                errorText={(isEdit?(state?.plans?.error):(state1?.plans?.error))}
                 fullWidth
                 options={plans}
               />
+               {/* <InputLabel title="Choose Plan" />
+                  <RadioGroup 
+                    defaultValue="plan1" 
+                    name="plans" 
+                    value={state?.plans?.value}
+                    onChange={handleChange} 
+                    row
+                  >
+                    <FormControlLabel
+                      value="plan1"
+                      control={<Radio />}
+                      label="plan1"
+                    />
+                    <FormControlLabel
+                      value="plan2"
+                      control={<Radio />}
+                      label="plan2"
+                    />
+                    <FormControlLabel
+                      value="plan3"
+                      control={<Radio />}
+                      label="plan3"
+                    />
+                  </RadioGroup> */}
             </div>
             <Autocomplete
               placeholder="Category(Optional)"
               label="Search Category"
+              isRadio={false}
               name="category"
               handleChange={(event:any,newValue:any)=>{handleChangeAutoComplete('category',newValue)}}
-              value={state.category.value}
-              error={!!state.category.error}
-              errorText={state.category.error}
+              value={(isEdit?(state?.category?.value):(state1?.category?.value))}
+              error={!!(isEdit?(state?.category?.error):(state1?.category?.error))}
+              errorText={(isEdit?(state?.category?.error):(state1?.category?.error))}
               fullWidth
               options={category}
             />
             <div>
               Rules
-              <Editor value={state.rules.value} handleChange={(event)=>{handleChangeAutoComplete('rules',event)}} />
+              <Editor value={(isEdit?(state?.rules?.value):(state1?.rules?.value))} handleChange={(event)=>{handleChangeAutoComplete('rules',event)}} />
             </div>
           </div>
 
         </ModalBody>
         <ModalActions>
           <div className={classes.submitContainer}>
-            <Button onClick={submitData} disabled={isLoading} >Submit</Button>
+            <Button onClick={submitData} disabled={isLoading || updateThemeLoading} >Submit</Button>
           </div>
         </ModalActions>
       </Modal>

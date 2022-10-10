@@ -9,7 +9,7 @@ export const ApprovalsContainer = () => {
   return (
     <div className={classes.container}>
       {data?.data.data?.slice(0, 2).map((product) => (
-        <Approval
+        <Approval key={product._id}
           productImg={product.productImageUrl![0]}
           date={product.createdAt}
         />

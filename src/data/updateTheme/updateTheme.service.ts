@@ -1,8 +1,8 @@
 import { CoreApi } from "../../utils/api/core-api";
 import { API_ENDPOINTS } from "../../utils/api/endpoints";
-import { CreateTheme } from "./types";
+import { UpdateTheme } from "./types";
 
-export type CreateThemeType = {
+export type UpdateThemeType = {
   id:string;
     title: string; 
     images: string[];
@@ -16,12 +16,12 @@ export type CreateThemeType = {
     maxPrice: number;
 };
 
-class CreateThemeApi extends CoreApi {
-  createTheme(body: CreateThemeType) {
+class UpdateThemeApi extends CoreApi {
+  updateTheme(body: UpdateThemeType) {
     return this.http
-      .post(API_ENDPOINTS.CREATE_THEME, body)
-      .then((res) => res.data as CreateTheme)
+      .post(API_ENDPOINTS.UPDATE_THEME, body)
+      .then((res) => res.data as UpdateTheme)
   }
 }
 
-export const CreateThemeService = new CreateThemeApi("");
+export const UpdateThemeService = new UpdateThemeApi("");

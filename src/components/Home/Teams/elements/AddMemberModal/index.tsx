@@ -6,12 +6,13 @@ import { TeamInfoInputs } from "./elements/TeamInfoInputs";
 import { UserInfoInputs } from "./elements/UserInfoInputs";
 import classes from "./styles.module.css";
 import { INITIAL_STATE, StateNameType } from "./types";
-
+import { useCreateTeamMutation } from "@data/createTeam/create-team.mutation";
 // TODO: add api handlers for input fields
 // DONE: seprate batch input fields to seprate files and only pass required functions and state values - IN_PROGRESS
 // TODO: create a handleSubmit function and validater for the required and spacial values
 
 export const AddMemberModal = () => {
+  const { mutate: createTeam,isLoading } = useCreateTeamMutation();
   const { closeModal, currentModals } = useHeadStore((state) => state);
   const [state, setState] = React.useState(INITIAL_STATE);
   const isOpen = currentModals.includes("addMember");
@@ -37,6 +38,44 @@ export const AddMemberModal = () => {
       },
     });
   };
+  const submitData = ()=>{
+    console.log(state);
+    let arr=[...state.name.value.split(" ")];
+    arr.shift();
+    
+const lastName=arr.join(" ");
+   const data={
+     username:"sksachin7z2",
+      role:"head_selector",
+      password:"sachin@1",
+      firstName:state.name.value.split(" ")[0],
+      lastName:(state.name.value.split(" ")[1])?lastName:"N/A",
+      email:state.email.value,
+      phone:state.phoneNumber.value,
+      countryCode:"+91",
+      gender: state.gender.value,
+      themes: [],
+      uploadedResume:[],
+      uploadedId:[],
+      monthlyStipend: 0,
+      notes : state.notes.value,
+      isHeadSelector: false,
+      team:["A"]
+    }
+    console.log(data);
+    
+    createTeam(
+      data,
+      {
+        onSuccess: (data) => {
+          console.log({ data });
+        },
+        onError: (err: any) => {
+
+        },
+      }
+    )
+  }
   return (
     <Modal open={isOpen} onClose={() => closeModal("addMember")}>
       <ModalBody>
@@ -50,7 +89,7 @@ export const AddMemberModal = () => {
       </ModalBody>
       <ModalActions>
         <div className={classes.justifyCenter}>
-          <Button>Submit</Button>
+          <Button onClick={submitData} disabled={isLoading}>Submit</Button>
         </div>
       </ModalActions>
     </Modal>

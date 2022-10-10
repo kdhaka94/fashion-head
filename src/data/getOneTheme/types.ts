@@ -1,4 +1,4 @@
-export interface CreateTheme {
+export interface Themes {
   status: number;
   message: string;
   data: TeamDataEntity | null;

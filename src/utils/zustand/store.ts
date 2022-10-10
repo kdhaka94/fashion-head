@@ -4,7 +4,9 @@ import { HeadStoreTypes } from "./types";
 export const useHeadStore = create<HeadStoreTypes>((set, get) => ({
   currentModals: [],
   user: null,
+  ThemeInfo:null,
   openModal: (name) => {
+
     console.log({ opening: name });
     const current = get().currentModals;
     current.push(name);
@@ -19,4 +21,9 @@ export const useHeadStore = create<HeadStoreTypes>((set, get) => ({
   setUser: (user) => {
     set({ user });
   },
+  setThemeInfo:(ThemeIno)=>{
+    console.log(ThemeIno)
+    set({ThemeInfo:ThemeIno})
+  }
+
 }));

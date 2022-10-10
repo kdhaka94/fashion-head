@@ -1,10 +1,13 @@
 export const INITIAL_STATE = {
+  id:{
+    value:""
+  },
   theme: {
     value: "",
     error: "",
   },
   team: {
-    value: [],
+    value: "",
     error: "",
   },
   brands: {
@@ -12,7 +15,7 @@ export const INITIAL_STATE = {
     error: "",
   },
   plans: {
-    value: [],
+    value: "",
     error: "",
   },
   category: {
@@ -36,6 +39,9 @@ export const INITIAL_STATE = {
     error: "",
   },
 };
+
+
+
 
 export type StateNameType = keyof typeof INITIAL_STATE;
 
